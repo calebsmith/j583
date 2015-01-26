@@ -11,7 +11,7 @@ print tempList
 
 for number in wins:
     print "Wins=%d" % number
-    
+
 for i in team:
     print "The teams %r" % i
 
@@ -20,5 +20,3 @@ for i in range(0,len(team)):
     tempList.append(team[i]);
 
 print tempList
-
-    

@@ -14,12 +14,6 @@ bmi = round((weight / height**2) * 703)
 print "So, you're %r old, %r tall and %r heavy." % (age, height, weight)
 
 
-
-
-
-
-
-
 #BMI FORUMLA = ( Weight in Pounds / ( Height in inches x Height in inches ) ) x 703
 bmi = round((weight / height**2) * 703)
 

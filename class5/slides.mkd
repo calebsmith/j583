@@ -1,0 +1,156 @@
+###Intro to Python Part II
+
+Prompts, Lists, Ifs
+
+![](images/image1.png)
+
+@@
+
+###Prompt
+
+Used to received dynamic data for the script.
+
+![](images/image2.png)
+
+@@
+
+###Add some math
+
+![](images/image3.png)
+
+@@
+
+###Better Math using int()
+
+Built in integer function.
+
+![](images/image4.png)
+
+@@
+
+###From the Future
+
+Better way to divide.
+
+[Future Import example](examples/future.py)
+
+![](images/image5.png)
+
+@@
+
+###Parameters and Modules
+
+Note: All parameters are strings
+
+[Argv example](examples/argv.py)
+
+![](images/image6.png)
+
+![](images/image7.png)
+
+@@
+
+###Learning Logic
+
+Logical operators
+
+![](images/image8.png)
+
+http://learnpythonthehardway.org/book/ex27.html
+
+@@
+
+###Truth Tables
+
+![](images/image9.png)
+
+
+![](images/image10.png)
+
+
+![](images/image11.png)
+
+
+![](images/image12.png)
+
+@@
+
+###If Statements
+
+```python
+    if 5 <= 5:
+        print “true”
+```
+
+Basic Logic,
+
+Test if something is true
+
+@@
+
+###Populate your vars with Params
+
+![](images/image13.png)
+
+Use the parameters to populate your script.
+
+Did it work?
+
+Try these numbers:
+
+5, 10 and 255
+
+@@
+
+###Else and Elif
+
+![](images/image14.png)
+
+[Ifs example](examples/ifs.py)
+
+@@
+
+###Lists (Arrays)
+
+In Python what you called an Array is a list.
+
+![](images/image15.png)
+
+![](images/image16.png)
+
+[List example](examples/lists.py)
+@@
+
+###Loops and Lists
+
+The best way to access lists are through loops
+
+For loop is different than in JS.
+
+@@
+
+###Using Lists
+
+.append()
+
+.remove()
+
+.pop() pop from the end
+
+.pop(0) pop from the beginning
+
+len(list_name) for length
+
+@@
+
+###Assignment: Story Time
+
+Write a Choose your own adventure story like the example.
+
+* Must have at least 2 decision points with at least two choices for each.
+
+* Use raw_input() for answers. Can use argv for initial values too (not required).
+
+* Provide human feedback along the way.
+
+[Text Adventure example](examples/adv.py)

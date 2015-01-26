@@ -1,0 +1,122 @@
+###Intro to Python
+
+Learning the basics for Django
+
+![](images/image1.png)
+
+* More to come later as needed.
+
+@@
+
+### Resources
+
+[python.org](https://www.python.org/)
+
+[Learn Python the Hard Way](http://learnpythonthehardway.org/book/)
+
+@@
+
+###Start Python
+
+Command: python
+
+\>\>\> is the prompt
+
+![](images/image2.png)
+
+@@
+
+###$ vs >>>
+
+Python is an "interpreted" language
+
+![](images/image3.png)
+
+@@
+
+###Python Interpreter
+
+Shows how scripts will run.
+
+![](images/image4.png)
+
+@@
+
+###Hello World!
+
+Write the .py
+
+Execute the file
+
+![](images/image5.png)
+
+![](images/image6.png)
+
+@@
+
+###Comments #
+
+![](images/image7.png)
+
+@@
+
+###Basic Math
+
+Order of Operations PEMDAS
+
+% (modulus or remainder of division)
+
+![](images/image8.png)
+
+@@
+
+###Variables
+
+Substitution representation
+
+![](images/image9.png)
+
+@@
+
+###Another Way to do Variables
+
+%s string
+
+%d number
+
+![](images/image10.png)
+
+@@
+
+###Lets get complicated.
+
+More variables with math.
+
+![](images/image11.png)
+
+![](images/image12.png)
+
+@@
+
+###Strings
+
+![](images/image13.png)
+
+
+![](images/image14.png)
+
+@@
+
+###Assignment 3
+
+* Write a Python script that tells a story with names, numbers and math.
+
+Requirements:
+
+* Use 5 different variables
+
+* Add, Subtract, Multiply and Divide
+
+* Display vars as string in both % form and var1, var2
+
+* Bonus: Use the Python interpreter to calculate 5 to the 18th power

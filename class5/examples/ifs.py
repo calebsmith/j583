@@ -18,17 +18,12 @@ if bananas > apples:
     print "There are more bananas than apples."
 else:
     print "Failed"
-    
+
 if apples == 10:
     print 'There are 10 apples.'
 
 if apples <= 10:
     print 'There are not more than 10 apples.'
-    
+
 if apples >= 10:
     print 'There are atleast 10 apples.'
-
-
-    
-    
-    

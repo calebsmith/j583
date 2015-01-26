@@ -120,3 +120,33 @@ Requirements:
 * Display vars as string in both % form and var1, var2
 
 * Bonus: Use the Python interpreter to calculate 5 to the 18th power
+
+* Follow submission instructions on the next slide
+
+@@
+
+###Submission
+
+* We'll put homework submissions in a repo on GitHub.
+
+* Create a new repository on GitHub, and call it "j583-assignments" or
+  similar. It is easiest if you tell it not to make a README for you.
+
+* Create a folder on your computer where you want to do assignments. Do
+  the work and save it as assignment4.py.
+
+* You can put this in its own folder called "assignment4" if you'd like.
+  Not strictly needed since this assignment is one file.
+
+* Do the following (link from github will be shown on the Github page and
+  will look like https://github.com/yourname/j583-assignments.git and
+  don't include the < >. Use the example provided on the page it showns
+  after creating the repo):
+
+```shell
+    git init
+    git remote add origin <link from github>
+    git add .
+    git commit -m "Creates assignment4"
+    git push -u origin master
+```

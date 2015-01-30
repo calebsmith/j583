@@ -1,0 +1,368 @@
+###Intro to Django
+
+The magical world of python publishing on the web!
+
+![](images/image1.png)
+
+@@
+
+![](images/image2.png)
+
+Meet Django Pony
+
+@@
+
+###Django is a Python Web Publishing Framework
+
+Built by Journalists for rapid development of data-driven websites and web applications
+
+Used at large and Small publications
+
+What is this Django Magic?
+
+@@
+
+###Who uses it?
+
+Washington Post
+
+National Geographic
+
+The Onion
+
+Instagram
+
+Pinterest
+
+
+![](images/image3.png)
+
+
+![](images/image4.png)
+
+
+![](images/image5.png)
+
+
+![](images/image6.png)
+
+UNC Example
+
+
+![](images/image7.png)
+
+UNC Example
+
+
+![](images/image8.png)
+
+UNC Example
+
+
+![](images/image9.png)
+
+
+###Overview of a Django Project
+
+@@
+
+###Let’s Make Magic!
+
+Install easy_install, pip and virtual env
+
+mkdir DJANGO_PROJECTS/dependencies
+
+Easy Install
+
+Go to:
+
+http://pypi.python.org/pypi/setuptools#downloads
+
+mv that file to dependencies
+
+Run the file as a Shell Script
+
+sudo sh setuptools-0.6c11-py2.7.egg
+
+sudo easy_install   (Should give an error!)
+
+![](images/image10.png)
+
+@@
+
+###Install PIP (package installer
+
+sudo easy_install --upgrade pip
+
+![](images/image11.png)
+
+@@
+
+###Install virtualenv (Virtual Environment)
+
+sudo pip install --upgrade virtualenv
+
+![](images/image12.png)
+
+@@
+
+###Understanding Virtual Environments
+
+* This is a Sandbox Python Environment
+
+* Like a separate server different from your system
+
+* You will install packages like Django for each env
+
+* Multiple virtualenvs for multiple projects
+
+* Allows for different versions and setups
+
+* Good practice!
+
+@@
+
+###Create your virtualenv
+
+virtualenv newschool-env
+
+. newschool-env/bin/activate
+
+Create your virtualenv
+
+![](images/image13.png)
+
+@@
+
+###Notice the Prompt
+
+![](images/image14.png)
+
+You will do this every time you start a new terminal window to work on a project
+
+@@
+
+###Install Django
+
+pip install Django==1.4.3
+
+![](images/image15.png)
+
+@@
+
+###Create a Django Project
+
+django-admin.py startproject newschool
+
+cd newschool
+
+![](images/image16.png)
+
+@@
+
+###Manage.py
+
+python manage.py runserver
+
+![](images/image17.png)
+
+@@
+
+###Did it work?
+
+In a browser, go to http://localhost:8000
+
+![](images/image18.png)
+
+@@
+
+###Make your life easier with Tabs
+
+Open a new Terminal tab (Command T on mac)
+
+Restart your virtual env
+
+. newschool-env/bin/activate
+
+![](images/image19.png)
+
+@@
+
+### Project Files
+
+
+newschool (dir)
+
+ - manage.py
+
+ - newschool ( dir )
+
+ - \_\_init\_\_.py (package file)
+
+ - settings.py
+
+ - urls.py
+
+ - wsgi.py
+
+@@
+
+###Create a Komodo Project
+
+Save it in your newschool dir
+
+![](images/image20.png)
+
+@@
+
+###Settings File
+
+These are common settings for Django projects
+
+PROJECT_PATH & PROJECT_ROOT
+
+DEBUG
+
+DATABASES
+
+STATIC_ROOT & MEDIA_ROOT
+
+STATIC_URL & MEDIA_URL
+
+TEMPLATE_DIRS
+
+INSTALLED_APPS
+
+@@
+
+###Settings: PROJECT_ROOT and _PATH
+
+Add this to the top of the settings file
+
+![](images/image21.png)
+
+@@
+
+###Settings: Database
+
+We will use SQLite
+
+Good for learning
+
+Bad for production
+
+Fine for now
+
+![](images/image22.png)
+
+@@
+
+###Settings: Paths
+
+Set the media and static paths (4 places)
+
+![](images/image23.png)
+
+@@
+
+### Settings: STATICFILES_DIR
+
+This is where your CSS and JS files will live
+
+![](images/image24.png)
+
+@@
+
+###Settings: Installed Apps
+
+Each app must be “turned on” by adding it to the installed apps setting.
+
+![](images/image25.png)
+
+@@
+
+### Create database
+
+Run the syncdb to create a database
+
+Creates Superuser
+
+Follow prompts and make a user with simple username and password
+
+Creates database indexes
+
+Install custom SQL
+
+Installed initial data
+
+![](images/image26.png)
+
+@@
+
+###Check for errors
+
+Check the terminal tab on runserver for errors
+
+Check in browser: http://localhost:8000
+
+@@
+
+###App or Project?
+
+App is a set of related functionality (feature)
+
+Ex. User Comments, Admin, Registration
+
+Project is a collection of apps
+
+Project can contain multiple apps and apps can be in multiple project.
+
+@@
+
+###Lets make our First App
+
+python manage.py startapp roster
+
+![](images/image27.png)
+
+@@
+
+###Settings: Add App
+
+Add to bottom of list include comma.
+
+![](images/image28.png)
+
+@@
+
+###MVT Architecture Pattern
+
+Django follows the Model-View-Template design pattern.
+
+This isolates logic, data and presentation into separate buckets.
+
+* Model: Describes the data and how a user interacts with the data (more later)
+
+* View: Describes which data user sees
+
+* Template: Describes how you see the data
+
+@@
+
+###Make a View
+
+Create a Hello World! page
+
+Create a view in the roster app
+
+![](images/image29.png)
+
+@@
+
+###URL Dispatcher
+
+The URL dispatcher connects URLs to Views
+
+![](images/image30.png)
+
+@@

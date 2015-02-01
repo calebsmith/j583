@@ -1,368 +1,260 @@
-###Intro to Django
+####Python Part III
 
-The magical world of python publishing on the web!
-
-![](images/image1.png)
+Functions, Imports, Dictionaries
 
 @@
 
-![](images/image2.png)
+###Before We Begin
 
-Meet Django Pony
-
-@@
-
-###Django is a Python Web Publishing Framework
-
-Built by Journalists for rapid development of data-driven websites and web applications
-
-Used at large and Small publications
-
-What is this Django Magic?
+* Install Xcode (Mac Only)
 
 @@
 
-###Who uses it?
+###Functions
 
-Washington Post
+* A named unit of code that performs a specific task
 
-National Geographic
+* To use a function, you "call" it
 
-The Onion
+* You've already used the int and print functions
 
-Instagram
-
-Pinterest
-
-
-![](images/image3.png)
-
-
-![](images/image4.png)
-
-
-![](images/image5.png)
-
-
-![](images/image6.png)
-
-UNC Example
-
-
-![](images/image7.png)
-
-UNC Example
-
-
-![](images/image8.png)
-
-UNC Example
-
-
-![](images/image9.png)
-
-
-###Overview of a Django Project
+```python
+    a = '3'
+    b = int(a)
+    print(b)
+```
 
 @@
 
-###Let’s Make Magic!
+###Function arguments
 
-Install easy_install, pip and virtual env
+* "arguments" (also called "parameters") are values passed to the function
 
-mkdir DJANGO_PROJECTS/dependencies
+* A function can take any number of arguments including 0
 
-Easy Install
+* A function returns a value (but value can be None)
 
-Go to:
-
-http://pypi.python.org/pypi/setuptools#downloads
-
-mv that file to dependencies
-
-Run the file as a Shell Script
-
-sudo sh setuptools-0.6c11-py2.7.egg
-
-sudo easy_install   (Should give an error!)
-
-![](images/image10.png)
+```python
+    a = '3'
+    result = int(a)
+```
 
 @@
 
-###Install PIP (package installer
+####Function definition
 
-sudo easy_install --upgrade pip
+* Define your own functions with `def`
 
-![](images/image11.png)
-
-@@
-
-###Install virtualenv (Virtual Environment)
-
-sudo pip install --upgrade virtualenv
-
-![](images/image12.png)
+```python
+# A naive implementation
+def dog_years(human_years):
+    return human_years * 7
+```
 
 @@
 
-###Understanding Virtual Environments
+####Function definition Continued
 
-* This is a Sandbox Python Environment
-
-* Like a separate server different from your system
-
-* You will install packages like Django for each env
-
-* Multiple virtualenvs for multiple projects
-
-* Allows for different versions and setups
-
-* Good practice!
+```python
+# A more realistic implementation
+def dog_years(human_years):
+    if human_years <= 2:
+        return human_years * 10.5
+    else:
+        return ((human_years - 2) * 4) + 21
+```
 
 @@
 
-###Create your virtualenv
+####Function arguments
 
-virtualenv newschool-env
+```python
+import math
 
-. newschool-env/bin/activate
+# (Pi * r ** 2) * height
+def volume_cylinder(r, h):
+    return math.pi * radius ** 2 * height
 
-Create your virtualenv
-
-![](images/image13.png)
-
-@@
-
-###Notice the Prompt
-
-![](images/image14.png)
-
-You will do this every time you start a new terminal window to work on a project
+r = 5
+h = 10
+vol = volume_cylinder(r, h)
+```
 
 @@
 
-###Install Django
+####Functions with no return
 
-pip install Django==1.4.3
+```python
 
-![](images/image15.png)
+def print_greeting(name):
+    print 'Hi {0}'.format(name)
+```
+
+* Returns None
+@@
+
+
+####Scope
+
+The **scope** of a variable is the area of code in which a variable is still valid and can be used.
+
+Variables defined within a function can not be used elsewhere.
+
+```python
+from __future__ import division
+
+
+def average(numbers):
+    # Can use "numbers" here
+    return sum(numbers) / len(numbers)
+
+avg = average([10, 15, 20, 25])
+# Cannot reference "numbers" here
+```
 
 @@
 
-###Create a Django Project
+####Function Call Stack
 
-django-admin.py startproject newschool
+* Function calls **stack** on top of each other
 
-cd newschool
+```python
 
-![](images/image16.png)
+def f(x):
+    return x + 5
+
+def g(x):
+    return f(x) + 4
+
+def h(x):
+    return g(f(x))
+
+print h(4)
+#18
+```
+@@
+
+###Import statements
+
+The **import** statement allows us to use Python code that is defined in one file in a different file, or inside of the shell.
+
+The **from** keyword allows us to only import parts of a Python file
+
+```python
+# In knights.py
+def shrubbery():
+    print "I am a shrubber"
+
+def ni(number):
+    print "Ni!" * 3
+```
+
+
+```python
+# Run a Python shell in the same directory as knights.py and enter the following
+import knights
+
+knights.shrubbery()
+knights.ni()
+
+# or
+from knights import shrubbery, ni
+shrubbery()
+ni()
+```
+* Also works for a file in the same directory
+@@
+
+###Exercise
+
+* Create a Python file and define some functions in it.
+* Create another Python file that imports those functions and uses them.
 
 @@
 
-###Manage.py
+###Dictionaries
 
-python manage.py runserver
+A **dictionary** (sometimes called a "hashmap") is a collection of key/value pairs, defined with `{}`
 
-![](images/image17.png)
-
+```python
+menu_categories = {
+    'food': 'stuff you eat',
+    'beverage': 'stuff you drink',
+}
+```
 @@
 
-###Did it work?
+###Indexing on Dictionaries
 
-In a browser, go to http://localhost:8000
+* Dictionaries represent a group of mappings
 
-![](images/image18.png)
+* We can also index on dictionaries.
 
+* The most common indexes are strings
+
+```python
+menu = {
+    'tofu': 4,
+}
+
+tofu_cost = menu['tofu']
+# the tofu_cost variable is now equal to 4.
+```
+
+
+* Indexing on a key that doesn't exist results in a KeyError
+
+* If you aren't certain a key is present, you can use the 'get' method
+
+```python
+menu.get('tofu', default_value)
+```
+
+* If key isn't present, returns the default value provided, otherwise None
 @@
 
-###Make your life easier with Tabs
-
-Open a new Terminal tab (Command T on mac)
-
-Restart your virtual env
-
-. newschool-env/bin/activate
-
-![](images/image19.png)
-
-@@
-
-### Project Files
-
-
-newschool (dir)
-
- - manage.py
-
- - newschool ( dir )
-
- - \_\_init\_\_.py (package file)
-
- - settings.py
-
- - urls.py
-
- - wsgi.py
-
-@@
-
-###Create a Komodo Project
-
-Save it in your newschool dir
-
-![](images/image20.png)
-
-@@
-
-###Settings File
-
-These are common settings for Django projects
-
-PROJECT_PATH & PROJECT_ROOT
-
-DEBUG
-
-DATABASES
-
-STATIC_ROOT & MEDIA_ROOT
-
-STATIC_URL & MEDIA_URL
-
-TEMPLATE_DIRS
-
-INSTALLED_APPS
-
-@@
-
-###Settings: PROJECT_ROOT and _PATH
-
-Add this to the top of the settings file
-
-![](images/image21.png)
-
-@@
-
-###Settings: Database
-
-We will use SQLite
-
-Good for learning
-
-Bad for production
-
-Fine for now
-
-![](images/image22.png)
-
-@@
-
-###Settings: Paths
-
-Set the media and static paths (4 places)
-
-![](images/image23.png)
-
-@@
-
-### Settings: STATICFILES_DIR
-
-This is where your CSS and JS files will live
-
-![](images/image24.png)
-
-@@
-
-###Settings: Installed Apps
-
-Each app must be “turned on” by adding it to the installed apps setting.
-
-![](images/image25.png)
-
-@@
-
-### Create database
-
-Run the syncdb to create a database
-
-Creates Superuser
-
-Follow prompts and make a user with simple username and password
-
-Creates database indexes
-
-Install custom SQL
-
-Installed initial data
-
-![](images/image26.png)
-
-@@
-
-###Check for errors
-
-Check the terminal tab on runserver for errors
-
-Check in browser: http://localhost:8000
-
-@@
-
-###App or Project?
-
-App is a set of related functionality (feature)
-
-Ex. User Comments, Admin, Registration
-
-Project is a collection of apps
-
-Project can contain multiple apps and apps can be in multiple project.
-
-@@
-
-###Lets make our First App
-
-python manage.py startapp roster
-
-![](images/image27.png)
-
-@@
-
-###Settings: Add App
-
-Add to bottom of list include comma.
-
-![](images/image28.png)
-
-@@
-
-###MVT Architecture Pattern
-
-Django follows the Model-View-Template design pattern.
-
-This isolates logic, data and presentation into separate buckets.
-
-* Model: Describes the data and how a user interacts with the data (more later)
-
-* View: Describes which data user sees
-
-* Template: Describes how you see the data
-
-@@
-
-###Make a View
-
-Create a Hello World! page
-
-Create a view in the roster app
-
-![](images/image29.png)
-
-@@
-
-###URL Dispatcher
-
-The URL dispatcher connects URLs to Views
-
-![](images/image30.png)
-
-@@
+###Dictionary Methods
+
+Some of the most essential methods are:
+
+* keys
+* values
+* items
+
+```python
+menu = {
+    'tofu': 4,
+    'pizza': 8,
+    'baguette': 3,
+}
+
+>>> print menu.get('pizza')
+8
+>>> print menu.get('donuts', 5)
+5
+>>> print menu.keys()
+['tofu', 'pizza', 'baguette']
+>>> print menu.values()
+[4, 8, 3]
+>>> print menu.items()
+[('tofu', 4), ('pizza', 8), ('baguette', 3)]
+```
+
+@@@
+
+###The in operator
+
+* The `in` operator is used to determine if an element is in a given collection
+
+* For dictionaries, the keys are searched for the element.
+
+```python
+>>> color = (255, 255, 0)
+>>> print(1 in color)
+False
+
+>>> menu = {'tofu': 4}
+>>> print('tofu' in menu)
+True
+```
+@@@

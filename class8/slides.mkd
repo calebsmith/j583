@@ -1,0 +1,291 @@
+###Intro to Django Part 2
+
+http://localhost:8000/hello-world
+
+Test it!
+
+YEA!!!!!! It gets much easier from here!
+
+![](images/image31.png)
+
+Making Views and Templates
+
+![](images/image32.png)
+
+@@
+
+###cd to DJANGO_PROJECTS
+
+.
+
+newschool
+
+-env/bin/activate
+
+Get in your virtual environment
+
+![](images/image33.png)
+
+@@
+
+###Templates
+
+Lets make a folder to hold our templates
+
+cd inside your project folder ( newschool )
+
+mkdir newschool/templates
+
+![](images/image34.png)
+
+@@
+
+###touch newschool/templates/base.html
+
+Or, in Komodo, Create from Template – HTML5
+
+Create a Template file
+
+HTML Template
+
+![](images/image35.png)
+
+Edit the View
+
+![](images/image36.png)
+
+@@
+
+###Open New Tab
+
+. ../
+
+newschool
+
+-env/bin/activate
+
+python
+
+manage.py
+
+
+
+runserver
+
+Restart your Server
+
+What? Of course it does, I just made it!
+
+![](images/image37.png)
+
+@@
+
+###Open settings.py and add the template dir
+
+Tell Django where the templates live
+
+![](images/image38.png)
+
+Refresh and See!
+
+![](images/image39.png)
+
+@@
+
+###Edit the Template to add a tag.
+
+Now let’s do something dynamic!
+
+![](images/image40.png)
+
+@@
+
+###Context is a term used to explain the usage of data
+
+Create a Context
+
+![](images/image41.png)
+
+@@
+
+###Templates can also provide ways to change how and when the variables are displayed.
+
+Conditionals: {% if number > 5 %} ... {% else %} ...
+
+Loops {% for elements in
+
+iterable
+
+ %} {%
+
+endfo
+
+ %}
+
+Text Filters: {{
+
+message|lower
+
+ }}, {{ my_number|floatformate:3 }}
+
+Template Filters and Tags
+
+@@
+
+###Make uppercase and show date.
+
+Filter and Tag
+
+![](images/image42.png)
+
+Refresh Browser
+
+![](images/image43.png)
+
+@@
+
+###New we need to work with some data.
+
+That was simple dynamic HTML display
+
+@@
+
+###Models describe our data
+
+Models map to SQL tables
+
+Each table has a name
+
+Column has a specific data type
+
+Django ORM (object-relational-mapper) hides us from real SQL.
+
+Models are important, think them through.
+
+Many ways to model every application
+
+Models
+
+@@
+
+###There will be one or many courses (j583)
+
+Courses contains
+
+Title
+
+Course Number
+
+Instructor
+
+Description
+
+Term
+
+Many Students
+
+Name
+
+PID
+
+Email
+
+Photo
+
+Bio
+
+Current Grade
+
+Assignments (Many)
+
+Major
+
+New School App Data
+
+Model
+
+Make your first model
+
+![](images/image44.png)
+
+Turn on the Admin App
+
+![](images/image45.png)
+
+Turn on the Admin URLs
+
+![](images/image46.png)
+
+@@
+
+###Create admin.py in the roster dir
+
+Tell Admin about Course
+
+![](images/image47.png)
+
+@@
+
+###python manage.py syncdb
+
+You have no idea how much time time just saved you!
+
+Sync DB
+
+![](images/image48.png)
+
+@@
+
+###models.py
+
+But the Admin needs some work
+
+![](images/image49.png)
+
+@@
+
+###admin.py
+
+Making Admin better
+
+![](images/image50.png)
+
+@@
+
+###https://docs.djangoproject.com/en/dev/ref/models/fields/
+
+Foreign Key
+
+A unique identifier used to relate tables. Default in
+
+Django
+
+ is the ID
+
+.
+
+OneToOne
+
+Similar in concept to Foreign Keys but reverse side returns as single object
+
+aswell
+
+ManyToMany
+
+Relation of many FKs. Class has many students.
+
+@@
+
+###Expand the models
+
+Edit model.py
+
+![](images/image51.png)
+
+More on models.py
+
+![](images/image52.png)
+
+Edit the admin.py file
+
+![](images/image53.png)

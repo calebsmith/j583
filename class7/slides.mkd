@@ -1,291 +1,368 @@
-###Intro to Django Part 2
+###Intro to Django
 
-http://localhost:8000/hello-world
+The magical world of python publishing on the web!
 
-Test it!
-
-YEA!!!!!! It gets much easier from here!
-
-![](images/image31.png)
-
-Making Views and Templates
-
-![](images/image32.png)
+![](images/image1.png)
 
 @@
 
-###cd to DJANGO_PROJECTS
+![](images/image2.png)
 
-.
-
-newschool
-
--env/bin/activate
-
-Get in your virtual environment
-
-![](images/image33.png)
+Meet Django Pony
 
 @@
 
-###Templates
+###Django is a Python Web Publishing Framework
 
-Lets make a folder to hold our templates
+Built by Journalists for rapid development of data-driven websites and web applications
 
-cd inside your project folder ( newschool )
+Used at large and Small publications
 
-mkdir newschool/templates
-
-![](images/image34.png)
+What is this Django Magic?
 
 @@
 
-###touch newschool/templates/base.html
+###Who uses it?
 
-Or, in Komodo, Create from Template – HTML5
+Washington Post
 
-Create a Template file
+National Geographic
 
-HTML Template
+The Onion
 
-![](images/image35.png)
+Instagram
 
-Edit the View
-
-![](images/image36.png)
-
-@@
-
-###Open New Tab
-
-. ../
-
-newschool
-
--env/bin/activate
-
-python
-
-manage.py
+Pinterest
 
 
+![](images/image3.png)
 
-runserver
 
-Restart your Server
+![](images/image4.png)
 
-What? Of course it does, I just made it!
 
-![](images/image37.png)
+![](images/image5.png)
 
-@@
 
-###Open settings.py and add the template dir
+![](images/image6.png)
 
-Tell Django where the templates live
+UNC Example
 
-![](images/image38.png)
 
-Refresh and See!
+![](images/image7.png)
 
-![](images/image39.png)
+UNC Example
+
+
+![](images/image8.png)
+
+UNC Example
+
+
+![](images/image9.png)
+
+
+###Overview of a Django Project
 
 @@
 
-###Edit the Template to add a tag.
+###Let’s Make Magic!
 
-Now let’s do something dynamic!
+Install easy_install, pip and virtual env
 
-![](images/image40.png)
+mkdir DJANGO_PROJECTS/dependencies
 
-@@
+Easy Install
 
-###Context is a term used to explain the usage of data
+Go to:
 
-Create a Context
+http://pypi.python.org/pypi/setuptools#downloads
 
-![](images/image41.png)
+mv that file to dependencies
 
-@@
+Run the file as a Shell Script
 
-###Templates can also provide ways to change how and when the variables are displayed.
+sudo sh setuptools-0.6c11-py2.7.egg
 
-Conditionals: {% if number > 5 %} ... {% else %} ...
+sudo easy_install   (Should give an error!)
 
-Loops {% for elements in
-
-iterable
-
- %} {%
-
-endfo
-
- %}
-
-Text Filters: {{
-
-message|lower
-
- }}, {{ my_number|floatformate:3 }}
-
-Template Filters and Tags
+![](images/image10.png)
 
 @@
 
-###Make uppercase and show date.
+###Install PIP (package installer
 
-Filter and Tag
+sudo easy_install --upgrade pip
 
-![](images/image42.png)
-
-Refresh Browser
-
-![](images/image43.png)
+![](images/image11.png)
 
 @@
 
-###New we need to work with some data.
+###Install virtualenv (Virtual Environment)
 
-That was simple dynamic HTML display
+sudo pip install --upgrade virtualenv
 
-@@
-
-###Models describe our data
-
-Models map to SQL tables
-
-Each table has a name
-
-Column has a specific data type
-
-Django ORM (object-relational-mapper) hides us from real SQL.
-
-Models are important, think them through.
-
-Many ways to model every application
-
-Models
+![](images/image12.png)
 
 @@
 
-###There will be one or many courses (j583)
+###Understanding Virtual Environments
 
-Courses contains
+* This is a Sandbox Python Environment
 
-Title
+* Like a separate server different from your system
 
-Course Number
+* You will install packages like Django for each env
 
-Instructor
+* Multiple virtualenvs for multiple projects
 
-Description
+* Allows for different versions and setups
 
-Term
-
-Many Students
-
-Name
-
-PID
-
-Email
-
-Photo
-
-Bio
-
-Current Grade
-
-Assignments (Many)
-
-Major
-
-New School App Data
-
-Model
-
-Make your first model
-
-![](images/image44.png)
-
-Turn on the Admin App
-
-![](images/image45.png)
-
-Turn on the Admin URLs
-
-![](images/image46.png)
+* Good practice!
 
 @@
 
-###Create admin.py in the roster dir
+###Create your virtualenv
 
-Tell Admin about Course
+virtualenv newschool-env
 
-![](images/image47.png)
+. newschool-env/bin/activate
 
-@@
+Create your virtualenv
 
-###python manage.py syncdb
-
-You have no idea how much time time just saved you!
-
-Sync DB
-
-![](images/image48.png)
+![](images/image13.png)
 
 @@
 
-###models.py
+###Notice the Prompt
 
-But the Admin needs some work
+![](images/image14.png)
 
-![](images/image49.png)
-
-@@
-
-###admin.py
-
-Making Admin better
-
-![](images/image50.png)
+You will do this every time you start a new terminal window to work on a project
 
 @@
 
-###https://docs.djangoproject.com/en/dev/ref/models/fields/
+###Install Django
 
-Foreign Key
+pip install Django==1.4.3
 
-A unique identifier used to relate tables. Default in
-
-Django
-
- is the ID
-
-.
-
-OneToOne
-
-Similar in concept to Foreign Keys but reverse side returns as single object
-
-aswell
-
-ManyToMany
-
-Relation of many FKs. Class has many students.
+![](images/image15.png)
 
 @@
 
-###Expand the models
+###Create a Django Project
 
-Edit model.py
+django-admin.py startproject newschool
 
-![](images/image51.png)
+cd newschool
 
-More on models.py
+![](images/image16.png)
 
-![](images/image52.png)
+@@
 
-Edit the admin.py file
+###Manage.py
 
-![](images/image53.png)
+python manage.py runserver
+
+![](images/image17.png)
+
+@@
+
+###Did it work?
+
+In a browser, go to http://localhost:8000
+
+![](images/image18.png)
+
+@@
+
+###Make your life easier with Tabs
+
+Open a new Terminal tab (Command T on mac)
+
+Restart your virtual env
+
+. newschool-env/bin/activate
+
+![](images/image19.png)
+
+@@
+
+### Project Files
+
+
+newschool (dir)
+
+ - manage.py
+
+ - newschool ( dir )
+
+ - \_\_init\_\_.py (package file)
+
+ - settings.py
+
+ - urls.py
+
+ - wsgi.py
+
+@@
+
+###Create a Komodo Project
+
+Save it in your newschool dir
+
+![](images/image20.png)
+
+@@
+
+###Settings File
+
+These are common settings for Django projects
+
+PROJECT_PATH & PROJECT_ROOT
+
+DEBUG
+
+DATABASES
+
+STATIC_ROOT & MEDIA_ROOT
+
+STATIC_URL & MEDIA_URL
+
+TEMPLATE_DIRS
+
+INSTALLED_APPS
+
+@@
+
+###Settings: PROJECT_ROOT and _PATH
+
+Add this to the top of the settings file
+
+![](images/image21.png)
+
+@@
+
+###Settings: Database
+
+We will use SQLite
+
+Good for learning
+
+Bad for production
+
+Fine for now
+
+![](images/image22.png)
+
+@@
+
+###Settings: Paths
+
+Set the media and static paths (4 places)
+
+![](images/image23.png)
+
+@@
+
+### Settings: STATICFILES_DIR
+
+This is where your CSS and JS files will live
+
+![](images/image24.png)
+
+@@
+
+###Settings: Installed Apps
+
+Each app must be “turned on” by adding it to the installed apps setting.
+
+![](images/image25.png)
+
+@@
+
+### Create database
+
+Run the syncdb to create a database
+
+Creates Superuser
+
+Follow prompts and make a user with simple username and password
+
+Creates database indexes
+
+Install custom SQL
+
+Installed initial data
+
+![](images/image26.png)
+
+@@
+
+###Check for errors
+
+Check the terminal tab on runserver for errors
+
+Check in browser: http://localhost:8000
+
+@@
+
+###App or Project?
+
+App is a set of related functionality (feature)
+
+Ex. User Comments, Admin, Registration
+
+Project is a collection of apps
+
+Project can contain multiple apps and apps can be in multiple project.
+
+@@
+
+###Lets make our First App
+
+python manage.py startapp roster
+
+![](images/image27.png)
+
+@@
+
+###Settings: Add App
+
+Add to bottom of list include comma.
+
+![](images/image28.png)
+
+@@
+
+###MVT Architecture Pattern
+
+Django follows the Model-View-Template design pattern.
+
+This isolates logic, data and presentation into separate buckets.
+
+* Model: Describes the data and how a user interacts with the data (more later)
+
+* View: Describes which data user sees
+
+* Template: Describes how you see the data
+
+@@
+
+###Make a View
+
+Create a Hello World! page
+
+Create a view in the roster app
+
+![](images/image29.png)
+
+@@
+
+###URL Dispatcher
+
+The URL dispatcher connects URLs to Views
+
+![](images/image30.png)
+
+@@

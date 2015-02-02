@@ -165,6 +165,21 @@ ni()
 * Also works for a file in the same directory
 @@
 
+####Wild-card Form Imports
+
+* This is when you `from modulename import *`
+
+```
+LUKE: Is from module import * better than explicit imports?
+YODA: No, not better. Quicker, easier, more seductive.
+LUKE: But how will I know why explicit imports are better than the wild-card form?
+YODA: Know you will when your code you try to read six months from now.
+```
+
+* Imports everything, and everything it imports
+
+@@
+
 ###Exercise
 
 * Create a Python file and define some functions in it.

@@ -62,47 +62,51 @@ UNC Example
 ![](images/image9.png)
 
 
-###Overview of a Django Project
+###Intro to Python Packaging
 
 @@
 
 ###Let’s Make Magic!
 
-Install easy_install, pip and virtual env
+* Install python and pip with apt-get/yum (for Linux)
+* Install python and pip with brew (for Mac)
+* Install virtualenv and virtualenvwrapper with pip
+* Make directory for virtualenvs
 
-mkdir DJANGO_PROJECTS/dependencies
+```shell
+# Linux
+sudo apt-get install python2.7
+sudo apt-get install python-pip
 
-Easy Install
+# Mac
+brew install python
+brew install pip
 
-Go to:
-
-http://pypi.python.org/pypi/setuptools#downloads
-
-mv that file to dependencies
-
-Run the file as a Shell Script
-
-sudo sh setuptools-0.6c11-py2.7.egg
-
-sudo easy_install   (Should give an error!)
-
-![](images/image10.png)
-
-@@
-
-###Install PIP (package installer
-
-sudo easy_install --upgrade pip
-
-![](images/image11.png)
+# Both
+sudo pip install --upgrade pip
+sudo pip install virtualenv
+sudo pip install virtualenvwrapper
+cd ~
+mkdir .virtualenvs
+```
 
 @@
 
-###Install virtualenv (Virtual Environment)
+####Virtualenvwrapper Configuration
 
-sudo pip install --upgrade virtualenv
+```shell
+# In .bashrc for Linux
+# In .bash_profile for Mac
 
-![](images/image12.png)
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+```
+
+* save and then:
+
+```shell
+source ~/.bash_profile
+```
 
 @@
 
@@ -110,11 +114,11 @@ sudo pip install --upgrade virtualenv
 
 * This is a Sandbox Python Environment
 
-* Like a separate server different from your system
+* This makes is separate from your system's python
 
-* You will install packages like Django for each env
+* You will install packages like Django for each virtualenv
 
-* Multiple virtualenvs for multiple projects
+* Each project has its own virtualenv
 
 * Allows for different versions and setups
 
@@ -124,11 +128,7 @@ sudo pip install --upgrade virtualenv
 
 ###Create your virtualenv
 
-virtualenv newschool-env
-
-. newschool-env/bin/activate
-
-Create your virtualenv
+mkvirtualenv newschool
 
 ![](images/image13.png)
 
@@ -140,11 +140,18 @@ Create your virtualenv
 
 You will do this every time you start a new terminal window to work on a project
 
+* To leave, use "deactivate"
+
+```shell
+deactivate newschool
+workon newschool
+```
+
 @@
 
 ###Install Django
 
-pip install Django==1.4.3
+pip install Django==1.7
 
 ![](images/image15.png)
 
@@ -182,7 +189,9 @@ Open a new Terminal tab (Command T on mac)
 
 Restart your virtual env
 
-. newschool-env/bin/activate
+```shell
+workon newschool
+```
 
 ![](images/image19.png)
 
@@ -204,14 +213,6 @@ newschool (dir)
  - urls.py
 
  - wsgi.py
-
-@@
-
-###Create a Komodo Project
-
-Save it in your newschool dir
-
-![](images/image20.png)
 
 @@
 

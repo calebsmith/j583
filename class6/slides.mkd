@@ -72,7 +72,7 @@ def dog_years(human_years):
 import math
 
 # (Pi * r ** 2) * height
-def volume_cylinder(r, h):
+def volume_cylinder(radius, height):
     return math.pi * radius ** 2 * height
 
 r = 5
@@ -102,7 +102,6 @@ Variables defined within a function can not be used elsewhere.
 
 ```python
 from __future__ import division
-
 
 def average(numbers):
     # Can use "numbers" here
@@ -155,12 +154,12 @@ def ni(number):
 import knights
 
 knights.shrubbery()
-knights.ni()
+knights.ni(3)
 
 # or
 from knights import shrubbery, ni
 shrubbery()
-ni()
+ni(3)
 ```
 * Also works for a file in the same directory
 @@
@@ -255,7 +254,7 @@ menu = {
 [('tofu', 4), ('pizza', 8), ('baguette', 3)]
 ```
 
-@@@
+@@
 
 ###The in operator
 
@@ -272,4 +271,3 @@ False
 >>> print('tofu' in menu)
 True
 ```
-@@@

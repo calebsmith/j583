@@ -128,7 +128,7 @@ source ~/.bash_profile
 
 ###Create your virtualenv
 
-mkvirtualenv newschool
+mkvirtualenv newschool --python=`which python`
 
 ![](images/image13.png)
 
@@ -136,15 +136,15 @@ mkvirtualenv newschool
 
 ###Notice the Prompt
 
-![](images/image14.png)
-
-You will do this every time you start a new terminal window to work on a project
+```shell
+workon newschool
+```
+You will use 'workon' every time you start a new terminal window to work on a project
 
 * To leave, use "deactivate"
 
 ```shell
-deactivate newschool
-workon newschool
+deactivate
 ```
 
 @@
@@ -156,6 +156,16 @@ pip install Django==1.7
 ![](images/image15.png)
 
 @@
+
+
+###Single File Django
+
+* Follow along here:
+
+[Simplifying Django](http://radar.oreilly.com/2014/04/simplifying-django.html)
+
+@@
+
 
 ###Create a Django Project
 
@@ -185,9 +195,11 @@ In a browser, go to http://localhost:8000
 
 ###Make your life easier with Tabs
 
-Open a new Terminal tab (Command T on mac)
+Open a new Terminal tab
 
-Restart your virtual env
+(Command T on mac | CTRL+SHIFT T on linux)
+
+* Restart your virtual env
 
 ```shell
 workon newschool
@@ -199,20 +211,19 @@ workon newschool
 
 ### Project Files
 
+- newschool (dir)
 
-newschool (dir)
+    - manage.py
 
- - manage.py
+    - newschool ( dir )
 
- - newschool ( dir )
+        - \_\_init\_\_.py (package file)
 
- - \_\_init\_\_.py (package file)
+        - settings.py
 
- - settings.py
+        - urls.py
 
- - urls.py
-
- - wsgi.py
+        - wsgi.py
 
 @@
 
@@ -220,7 +231,7 @@ newschool (dir)
 
 These are common settings for Django projects
 
-PROJECT_PATH & PROJECT_ROOT
+BASE_DIR
 
 DEBUG
 
@@ -233,14 +244,6 @@ STATIC_URL & MEDIA_URL
 TEMPLATE_DIRS
 
 INSTALLED_APPS
-
-@@
-
-###Settings: PROJECT_ROOT and _PATH
-
-Add this to the top of the settings file
-
-![](images/image21.png)
 
 @@
 
@@ -264,6 +267,7 @@ Set the media and static paths (4 places)
 
 ![](images/image23.png)
 
+Note: WIP
 @@
 
 ### Settings: STATICFILES_DIR
@@ -284,17 +288,11 @@ Each app must be “turned on” by adding it to the installed apps setting.
 
 ### Create database
 
-Run the syncdb to create a database
+Run `migrate` to create a database and tables
 
-Creates Superuser
+(New in 1.7)
 
-Follow prompts and make a user with simple username and password
-
-Creates database indexes
-
-Install custom SQL
-
-Installed initial data
+"Applying all migrations"
 
 ![](images/image26.png)
 
@@ -310,13 +308,14 @@ Check in browser: http://localhost:8000
 
 ###App or Project?
 
-App is a set of related functionality (feature)
+* App is a set of related functionality (feature)
 
-Ex. User Comments, Admin, Registration
+* Ex. User Comments, Admin, Registration, Blog, Forum
 
-Project is a collection of apps
+* Project is a collection of apps
 
-Project can contain multiple apps and apps can be in multiple project.
+* A project can contain multiple apps. However, apps can be reusable and
+  used in different projects.
 
 @@
 
@@ -340,13 +339,14 @@ Add to bottom of list include comma.
 
 Django follows the Model-View-Template design pattern.
 
-This isolates logic, data and presentation into separate buckets.
+This isolates data storage, logic, and presentation into separate areas.
 
-* Model: Describes the data and how a user interacts with the data (more later)
+* Model: (storage) Describes the data and how a user interacts with the
+  data (more later)
 
-* View: Describes which data user sees
+* View: (logic) Describes which data user sees (Ties other two together)
 
-* Template: Describes how you see the data
+* Template: (presentation) Describes how you see the data
 
 @@
 

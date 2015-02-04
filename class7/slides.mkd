@@ -199,13 +199,11 @@ Open a new Terminal tab
 
 (Command T on mac | CTRL+SHIFT T on linux)
 
-* Restart your virtual env
+* Activate your virtual env
 
 ```shell
 workon newschool
 ```
-
-![](images/image19.png)
 
 @@
 
@@ -257,24 +255,54 @@ Bad for production
 
 Fine for now
 
-![](images/image22.png)
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'newschool.db'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+```
 
 @@
 
 ###Settings: Paths
 
-Set the media and static paths (4 places)
+* Set the media and static paths (4 places)
+* Goto root level newschool/ and
 
-![](images/image23.png)
+```shell
+mkdir -p public/media
+mkdir -p public/static
+cd newschool
+mkdir static
+```
 
-Note: WIP
+```python
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
+
+MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
+
+```
 @@
 
 ### Settings: STATICFILES_DIR
 
-This is where your CSS and JS files will live
+* This is where your CSS and JS files will live
 
-![](images/image24.png)
+```python
+# Additional locations of static files
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_DIR, 'static'),
+)
+```
 
 @@
 
@@ -283,6 +311,8 @@ This is where your CSS and JS files will live
 Each app must be “turned on” by adding it to the installed apps setting.
 
 ![](images/image25.png)
+
+Yours will have admin already added
 
 @@
 
@@ -293,8 +323,6 @@ Run `migrate` to create a database and tables
 (New in 1.7)
 
 "Applying all migrations"
-
-![](images/image26.png)
 
 @@
 
@@ -367,3 +395,4 @@ The URL dispatcher connects URLs to Views
 ![](images/image30.png)
 
 @@
+

@@ -39,84 +39,87 @@ mkdir newschool/templates
 ```shell
 touch newschool/templates/base.html
 ```
-Create a Template file
+Edit the file
+
+![](images/image33.png)
+
+@@
+
+###View
+
+Edit the rosters/view.py
 
 ![](images/image34.png)
 
 @@
 
-###View
-HTML Template
+###Restart Server
+
+* Open New Terminal Tab
+
+```shell
+cd ~/Projects/newschool
+workon newschool
+python manage.py runserver
+```
+
+* Refresh browser
+
+What? Of course it does, I just made it!
 
 ![](images/image35.png)
 
-
-Edit the View
-
-![](images/image36.png)
-
 @@
 
-###Open New Tab
+###TEMPLATE_DIRS
 
-. ../
+* Open settings.py and add the template dir
 
-newschool
+* Tells Django where the templates live
 
--env/bin/activate
+```python
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_DIR, 'templates'),
+)
+```
 
-python
 
-manage.py
-
-runserver
-
-Restart your Server
-
-What? Of course it does, I just made it!
+Refresh and See!
 
 ![](images/image37.png)
 
 @@
 
-###Open settings.py and add the template dir
+###Something Dynamic
 
-Tell Django where the templates live
+Edit the Template to add a tag.
 
 ![](images/image38.png)
 
-Refresh and See!
+@@
+
+### Create a Context
+
+Context is a term used to explain the usage of data
 
 ![](images/image39.png)
 
 @@
 
-###Edit the Template to add a tag.
+###Template Filters and Tags
 
-Now let’s do something dynamic!
+Templates can also provide ways to change how and when the variables are displayed.
 
-![](images/image40.png)
+```
+Conditionals: {% if number > 5 %} ... {% else %} ... {% endif %}
 
-@@
-
-###Context is a term used to explain the usage of data
-
-Create a Context
-
-![](images/image41.png)
-
-@@
-
-###Templates can also provide ways to change how and when the variables are displayed.
-
-Conditionals: {% if number > 5 %} ... {% else %} ...
-
-Loops {% for elements in iterable %}
+Loops:
+{% for element in iterable %}
+    {{ element }}
 {% endfor %}
 
 Text Filters: {{ message|lower }}, {{ my_number|floatformate:3 }}
-
-Template Filters and Tags
+```
 
 @@
 
@@ -124,143 +127,118 @@ Template Filters and Tags
 
 Filter and Tag
 
-![](images/image42.png)
+![](images/image40.png)
+
 
 Refresh Browser
 
-![](images/image43.png)
+![](images/image41.png)
 
 @@
 
-###New we need to work with some data.
+###Data?
 
 That was simple dynamic HTML display
+Now we need to work with some data.
 
 @@
 
-###Models describe our data
+###Models
 
-Models map to SQL tables
+* Models describe our data
 
-Each table has a name
+* Models map to SQL tables
 
-Column has a specific data type
+* Each table has a name
 
-Django ORM (object-relational-mapper) hides us from real SQL.
+* Column has a specific data type
 
-Models are important, think them through.
+* Django ORM (object-relational-mapper) hides us from real SQL.
 
-Many ways to model every application
+* Models are important, think them through.
 
-Models
+* Many ways to model every application
 
 @@
 
-###There will be one or many courses (j583)
+### Model
 
 Courses contains
 
-Title
+* Title
+* Course Number
+* Instructor
+* Description
+* Term
+* Many Students
+* Name
+* PID
+* Email
+* Photo
+* Bio
+* Current Grade
+* Assignments (Many)
+* Major
+* New School App Data
 
-Course Number
+@@
 
-Instructor
-
-Description
-
-Term
-
-Many Students
-
-Name
-
-PID
-
-Email
-
-Photo
-
-Bio
-
-Current Grade
-
-Assignments (Many)
-
-Major
-
-New School App Data
-
-Model
+### First Model
 
 Make your first model
 
-![](images/image44.png)
+(In rosters/models.py)
 
-Turn on the Admin App
+![](images/image42.png)
+
+@@
+
+###Admin
+
+Create admin.py in the roster dir
+
+Tell the admin about Course
 
 ![](images/image45.png)
 
-Turn on the Admin URLs
-
-![](images/image46.png)
-
 @@
 
-###Create admin.py in the roster dir
+###Migrations
 
-Tell Admin about Course
+```shell
+python manage.py makemigrations
+python manage.py migrate
+```
 
-![](images/image47.png)
-
-@@
-
-###python manage.py syncdb
-
-You have no idea how much time time just saved you!
-
-Sync DB
-
-![](images/image48.png)
+* You have no idea how much time this just saved you!
 
 @@
 
 ###models.py
 
-But the Admin needs some work
+Improve model
 
-![](images/image49.png)
+![](images/image47.png)
 
 @@
 
 ###admin.py
 
-Making Admin better
+Improve Admin
 
-![](images/image50.png)
+![](images/image48.png)
 
 @@
 
-###https://docs.djangoproject.com/en/dev/ref/models/fields/
+###Relations
 
-Foreign Key
+https://docs.djangoproject.com/en/dev/ref/models/fields/
 
-A unique identifier used to relate tables. Default in
+* Foreign Key - A unique identifier used to relate tables. Default in Django is the ID
 
-Django
+* OneToOne - Similar in concept to Foreign Keys but reverse side returns as single object aswell
 
- is the ID
-
-.
-
-OneToOne
-
-Similar in concept to Foreign Keys but reverse side returns as single object
-
-aswell
-
-ManyToMany
-
-Relation of many FKs. Class has many students.
+* ManyToMany - Relation of many FKs. Class has many students.
 
 @@
 
@@ -268,12 +246,14 @@ Relation of many FKs. Class has many students.
 
 Edit model.py
 
-![](images/image51.png)
+![](images/image49.png)
+
 
 More on models.py
 
-![](images/image52.png)
+![](images/image50.png)
+
 
 Edit the admin.py file
 
-![](images/image53.png)
+![](images/image51.png)

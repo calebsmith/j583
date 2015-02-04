@@ -1,30 +1,23 @@
 ###Intro to Django Part 2
 
-http://localhost:8000/hello-world
+@@
 
-Test it!
+###Test It
+
+```shell
+workon newschool
+cd ~/Projects/newschool
+python manage.py runserver
+
+```
+
+Visit - http://localhost:8000/hello-world
+@@
+
+### Making Views and Templates
 
 YEA!!!!!! It gets much easier from here!
 
-![](images/image31.png)
-
-Making Views and Templates
-
-![](images/image32.png)
-
-@@
-
-###cd to DJANGO_PROJECTS
-
-.
-
-newschool
-
--env/bin/activate
-
-Get in your virtual environment
-
-![](images/image33.png)
 
 @@
 
@@ -32,23 +25,31 @@ Get in your virtual environment
 
 Lets make a folder to hold our templates
 
-cd inside your project folder ( newschool )
+```shell
+# cd to your newschool project folder
 
+cd ~/Projects/newschool
 mkdir newschool/templates
+```
+
+@@
+
+###Create template file
+
+```shell
+touch newschool/templates/base.html
+```
+Create a Template file
 
 ![](images/image34.png)
 
 @@
 
-###touch newschool/templates/base.html
-
-Or, in Komodo, Create from Template – HTML5
-
-Create a Template file
-
+###View
 HTML Template
 
 ![](images/image35.png)
+
 
 Edit the View
 
@@ -67,8 +68,6 @@ newschool
 python
 
 manage.py
-
-
 
 runserver
 
@@ -112,21 +111,10 @@ Create a Context
 
 Conditionals: {% if number > 5 %} ... {% else %} ...
 
-Loops {% for elements in
+Loops {% for elements in iterable %}
+{% endfor %}
 
-iterable
-
- %} {%
-
-endfo
-
- %}
-
-Text Filters: {{
-
-message|lower
-
- }}, {{ my_number|floatformate:3 }}
+Text Filters: {{ message|lower }}, {{ my_number|floatformate:3 }}
 
 Template Filters and Tags
 

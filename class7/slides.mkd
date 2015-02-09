@@ -393,3 +393,27 @@ Create a view in the roster app
 The URL dispatcher connects URLs to Views
 
 ![](images/image30.png)
+
+@@
+
+###Reading Assignment
+
+[Django Girls Tutorial](http://tutorial.djangogirls.org/en/index.html)
+
+* Read sections 1
+* Skim 2-5 (we've covered these more thoroughly)
+* Read 6
+* Setup a new project the way we have in class (ignore section 7 of
+  tutorial):
+
+```shell
+cd ~/Projects
+mkvenv djangogirls --python=`which python`
+pip install Django==1.7
+```
+
+* Read and do Section 8 using djangogirls virtualenv (Don't have to turn
+  in)
+
+@@
+

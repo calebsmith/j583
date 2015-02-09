@@ -1,0 +1,207 @@
+###Problem Solving through Data Modeling
+
+How do we understand a problem to solve it?
+
+“In the ‘real world’ there are no model answers, no completely right or wrong solutions.”
+
+@@
+
+###Rome was not built in a day
+
+In a 16 week class in the Information Science department at MIT it was explained to students that expertise in data modeling could not come from study alone and that none of them would be ‘experts’ at the conclusion of the course. Instead, it was emphasized that expertise comes largely from experience, from exposure to a wide range of modeling applications and situations, and from the ability to think creatively ‘outside the square.’
+
+@@
+
+###Basics of Data Modeling
+
+Name the Entities
+
+Add some Attributes
+
+Verbalize their Relationships
+
+Name the Nouns
+
+Add some adjectives
+
+Verbalize their verbs
+
+@@
+
+###Entities
+
+Nouns, typically becomes a table.
+
+Car
+
+Driver
+
+Road
+
+@@
+
+###Attributes (adjectives)
+
+Properties or the things that describe the entity
+
+* Car
+
+    * Color
+
+    * Make
+
+    * Model
+
+    * Speed
+
+    * Direction
+
+    * Driver
+
+* Driver
+
+    * Name
+
+    * Sex
+
+@@
+
+###Relationships (Verbs)
+
+How are the entitles related
+
+There are many Cars MOVING on a ROAD and are DRIVEN by a Driver
+
+Road 1:M Cars
+
+Car 1:1 Driver
+
+@@
+
+###The old Order Problem
+
+Model the traditional online order for a product.
+
+Workflow: Customer orders a product that is fulfilled and shipped to the customer’s home.
+
+@@
+
+###Customer Order Model
+
+![](images/image1.png)
+
+@@
+
+###Data Types
+
+CharField (Text Field)
+
+TextField (Text Area)
+
+Integer (Number) [multiple types]
+
+Date (Date Object
+
+Media Path
+
+Boolean
+
+@@
+
+###Primary Keys and Foreign Keys
+
+Primary Key
+
+An ID to relate and definitely call the particular record or row
+
+Foreign Key
+
+Storage of a Primary Key from another table. Shows the relationship.
+
+@@
+
+###Relationships
+
+1:1
+
+One entity can be related to one other entity
+
+One row can be related to one row on another table
+
+Cars can have one driver
+
+Car 1:1 Driver
+
+1:M
+
+One entity can be related to many other rows on another table
+
+Father has many children but a child only has one biological father
+
+Father 1:M Children
+
+Child has a ForeignKey to Father
+
+@@
+
+###Relationships
+
+Many to Many
+
+Many Entities can have many rows and vice versa.
+
+Classes have many students. Students have many classes
+
+Classes M:M Students
+
+@@
+
+###Notation
+
+Simple Outline for Entities and Attributes
+
+* (1:1) One to One
+
+* (1:M) One to Many
+
+* (M:M) Many to Many
+
+@@
+
+###Example Notation
+
+* Car
+    * Driver (1:1)
+
+    * Color
+
+    * Make
+
+    * Model
+
+* Driver
+
+    * Name
+
+@@
+
+###Problem 1
+
+Write a short product description that examines this object and explain a usage, different from the usual or intended usage. Be creative. Points awarded for originality and creativity.
+
+Example:
+
+This fuzzy foot massager provides a firm resistance and repetitive motion for stopping arch pain. The bright green color enhance your mood while you receive a comfortable touch to the bottom of your feet. Comes in packs of two, one for each foot and one for a backup just incase one rolls away.
+
+@@
+
+###Problem 2
+
+Construct a grammatically correct and meaningful English sentence that has the word ‘and’ repeated five times with no other words in between; punctuation between the five ‘ands’ is allowed.
+
+@@
+
+###Weekend Assignment
+
+Identify something that the English language does not have a word for but could or should have.
+

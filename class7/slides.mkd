@@ -322,7 +322,7 @@ STATICFILES_DIRS = (
 
 Each app must be “turned on” by adding it to the installed apps setting.
 
-![](images/image25.png)
+![](images/image28.png)
 
 Yours will have admin already added
 

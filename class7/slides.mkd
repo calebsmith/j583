@@ -245,6 +245,18 @@ INSTALLED_APPS
 
 @@
 
+###Settings
+
+* BASE_DIR is already set correctly
+
+* Find it in settings.py below it add:
+
+```python
+PROJECT_DIR = os.path.join(BASE_DIR, 'newschool')
+```
+
+@@
+
 ###Settings: Database
 
 We will use SQLite
@@ -414,6 +426,3 @@ pip install Django==1.7
 
 * Read and do Section 8 using djangogirls virtualenv (Don't have to turn
   in)
-
-@@
-

@@ -257,3 +257,12 @@ More on models.py
 Edit the admin.py file
 
 ![](images/image51.png)
+
+@@
+
+###Reading Assignment
+
+[Django Girls Tutorial](http://tutorial.djangogirls.org/en/index.html)
+
+* Read sections 13-14
+

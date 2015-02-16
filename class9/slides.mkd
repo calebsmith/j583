@@ -6,12 +6,6 @@ How do we understand a problem to solve it?
 
 @@
 
-###Rome was not built in a day
-
-In a 16 week class in the Information Science department at MIT it was explained to students that expertise in data modeling could not come from study alone and that none of them would be ‘experts’ at the conclusion of the course. Instead, it was emphasized that expertise comes largely from experience, from exposure to a wide range of modeling applications and situations, and from the ability to think creatively ‘outside the square.’
-
-@@
-
 ###Basics of Data Modeling
 
 Name the Entities
@@ -100,7 +94,7 @@ TextField (Text Area)
 
 Integer (Number) [multiple types]
 
-Date (Date Object
+DateTime (datetime Object)
 
 Media Path
 
@@ -185,23 +179,6 @@ Simple Outline for Entities and Attributes
 
 @@
 
-###Problem 1
+###Exercise
 
-Write a short product description that examines this object and explain a usage, different from the usual or intended usage. Be creative. Points awarded for originality and creativity.
-
-Example:
-
-This fuzzy foot massager provides a firm resistance and repetitive motion for stopping arch pain. The bright green color enhance your mood while you receive a comfortable touch to the bottom of your feet. Comes in packs of two, one for each foot and one for a backup just incase one rolls away.
-
-@@
-
-###Problem 2
-
-Construct a grammatically correct and meaningful English sentence that has the word ‘and’ repeated five times with no other words in between; punctuation between the five ‘ands’ is allowed.
-
-@@
-
-###Weekend Assignment
-
-Identify something that the English language does not have a word for but could or should have.
-
+* What data model might a news site use for a story?

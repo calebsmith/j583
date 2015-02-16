@@ -1,0 +1,164 @@
+###Django Data Importing
+
+![](images/image1.png)
+
+@@
+
+###Make better models
+
+We still need a little more data about the class and to add the Students model.
+
+@@
+
+###Enter Env and Start Server
+
+You should know this command by now.
+
+@@
+
+###Students model
+
+![](images/image2.png)
+
+@@
+
+###Course Model
+
+![](images/image3.png)
+
+@@
+
+###model.py extras
+
+![](images/image4.png)
+
+@@
+
+###Load or Import some data
+
+For development, delete the database
+
+![](images/image5.png)
+
+@@
+
+###JSON
+
+JavaScript Object Notation
+
+A simple structured data format.
+
+Similar in concept to XML and used for similar purposes
+
+Lighter and Smaller than XML\* (sometimes)
+
+@@
+
+###JSON
+
+![](images/image6.png)
+
+@@
+
+###Create a JSON file
+
+First, we need some data.
+
+Curl is used for grabbing a file via HTTP
+
+Save the output to a file called
+
+data_students.json
+
+Curl URL > filename
+
+```
+curl calebsmith.github.io/j583/class10/examples/data_class.json > data_class.json
+```
+
+@@
+
+###Import JSON
+
+![](images/image8.png)
+
+@@
+
+###Let’s get BIG JSON
+
+data_students.json
+
+Curl URL > filename
+
+```
+curl calebsmith.github.io/j583/class10/examples/data_students.json > data_students.json
+```
+
+@@
+
+###Load the JSON file you just saved
+
+![](images/image10.png)
+
+@@
+
+###What?
+
+Bad data or bad model?
+
+@@
+
+###Fix the model
+
+![](images/image11.png)
+
+@@
+
+###When Changing Models
+
+Delete the DB file
+
+Migrate DB (python manage.py migrate)
+
+Re-import both data files
+
+\* For now!
+
+@@
+
+###Dump and Import (both)
+
+```
+rm newschool.db
+python manage.py migrate
+python manage.py loaddata data_class.json
+python manage.py loaddata data_students.json
+```
+@@
+
+###Oops, we left out the grades
+
+Download an updated JSON file and replace the exsisting data with the new data.
+
+@@
+
+###Incase you need help
+
+```
+curl http://calebsmith.github.io/j583/class10/examples/data_students_with_grade.json > data_students_with_grade.json
+python manage.py loaddata data_students_with_grade.json
+```
+
+@@
+
+###Python Shell Data Magic
+
+```
+from roster.models import Student, Course
+
+anna_students = Student.objects.filter(name__istartswith="anna")
+courses = Course.objects.filter(name__istartswith="Intr")
+course = courses[0]
+print course
+```
+

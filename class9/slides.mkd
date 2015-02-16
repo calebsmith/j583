@@ -182,3 +182,11 @@ Simple Outline for Entities and Attributes
 ###Exercise
 
 * What data model might a news site use for a story?
+
+@@
+
+###Assigment
+
+Interactive Application Review
+
+[Full description of assignment](https://gist.githubusercontent.com/calebsmith/1fed705e1334816dc563/raw/1a51c19dbae5fcfad446f6ed00d662a205186ec4/gistfile1.txt)

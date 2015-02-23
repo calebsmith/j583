@@ -189,4 +189,4 @@ Simple Outline for Entities and Attributes
 
 Interactive Application Review
 
-[Full description of assignment](https://gist.githubusercontent.com/calebsmith/1fed705e1334816dc563/raw/5c918ae3737d770f3c5fe38a2d5585881b9066bc/gistfile1.txt)
+[Full description of assignment](https://gist.githubusercontent.com/calebsmith/1fed705e1334816dc563/raw/fa309a5dbf432c484aa96a54356b23170698c3f9/gistfile1.txt)

@@ -8,7 +8,7 @@
 
 You had a view of student and course that gave you a random student record rather than one based on the URL
 
-You should have found a way to fix this before today.
+We should find a way to fix this.
 
 Let me show you how.
 
@@ -16,17 +16,12 @@ Let me show you how.
 
 ###Remember
 
-Request 
+Request:
 
-urls.py
-
- 
-
-views.py
-
- 
-
-template.html
+* urls.py (Root, than per app as defined in root urls.py)
+* views.py (as referenced by urls.py)
+* template.html (as referenced by views.py)
+<br/>
 
 Trace everything backwards and make sure changes are correct on all three files.
 
@@ -34,9 +29,7 @@ Trace everything backwards and make sure changes are correct on all three files.
 
 ###App urls.py
 
-N
-
-eed to turn on /student/123  and the same for courses.
+Need to turn on /student/123 and the same for courses.
 
 ![](images/image2.png)
 
@@ -56,59 +49,28 @@ eed to turn on /student/123  and the same for courses.
 
 ###Test it!Now for Style! Bootstrap Style
 
-mkdir
-
-
-
-newschool
-
-/
-
-static_media
-
-
-
-curl
-
-https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-
-
-dist.zip
-
- >
-
-bootstrap.zip
-
-![](images/image5.png)
+```
+cd newschool/static
+curl https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-dist.zip > bootstrap.zip
+```
 
 @@
 
 ###Unzip and Copy Content into static_media
 
-unzip
-
-bootstrap.zip
-
-mv bootstrap/*
-
-static_media
-
-![](images/image6.png)
+```
+unzip bootstrap.zip
+mv bootstrap/* ../
+```
 
 @@
 
 ###Always clean up after yourself
 
-rmdir
-
- bootstrap
-
-rmdir
-
-
-
-bootstrap.zip
-
-![](images/image7.png)
+```
+rmdir bootstrap
+rm bootstrap.zip
+```
 
 @@
 
@@ -116,29 +78,19 @@ bootstrap.zip
 
 ![](images/image8.png)
 
+* N.B. - "static" **not** "static_media" as in the image
+
 @@
 
 ###Django Static Server
 
 In production, you would serve static files with Apache or a CDN which would be faster
 
-Django
+Django is a dyamic server so it is slower but will work in our case (and for development)
 
- is a
+http://localhost:8000/static/css/bootstrap.css
 
-dyamic
-
- server so it is slower but will work in our case
-
-http://localhost:8000/static/css/
-
-bootstrap.css
-
-notice the /static/ comes from the
-
-settings.py
-
-
+* Notice the /static/ comes from the settings.py STATIC_URL
 
 @@
 
@@ -148,13 +100,36 @@ For when you need to get all of your static files in one place to put them on a 
 
 ![](images/image9.png)
 
+
 ![](images/image10.png)
+
+* N.B. - Ours will be in /public/static per STATIC_ROOT
 
 @@
 
 ###Add bootstrap to base.html
 
-![](images/image11.png)
+```
+<!-- Ignore this line - Needed to get proper formatting --
+
+{% load static from staticfiles %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>{% block title %}New School Project{% endblock %}</title>
+        <link href="{% static 'css/bootstrap.min.css' %}">
+    </head>
+
+    <body>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
+```
 
 @@
 
@@ -162,15 +137,19 @@ For when you need to get all of your static files in one place to put them on a 
 
 ![](images/image12.png)
 
+* N.B. - {% load url from future %} no longer needed
+
 @@
 
-###What are the three files when editing making a new page?What are the three files when editing making a new page?
+###Three files
 
-urls.py
+What are the three files when editing making a new page?
 
-views.py
+1. urls.py
 
-template_name.html
+1. views.py
+
+1. template_name.html
 
 @@
 
@@ -182,21 +161,9 @@ template_name.html
 
 ###Need a list of each model
 
-duplicate
+duplicate course.html and rename course_list.html
 
-course.html
-
- and rename
-
-course_list.html
-
-duplicate
-
-student.html
-
- and rename
-
-student_list.html
+duplicate student.html and rename student_list.html
 
 Create new view for listing
 
@@ -204,29 +171,13 @@ Create new view for listing
 
 @@
 
-###But what about 5000 names?
+###What about 5000 students?
 
-Pagination. I just searched “
+* Reference documentation
 
-django
+[Django Pagination](https://docs.djangoproject.com/en/dev/topics/pagination/)
 
- pagination”
-
-And got this answer
-
-. https://
-
-docs.djangoproject.com
-
-/en/
-
-dev
-
-/topics/pagination
-
-/
-
-Had to change the model names and make sure everything was imported but it worked pretty easy.
+* Just change the model names and make sure everything was imported.
 
 @@
 
@@ -293,7 +244,3 @@ Part 3 of 3.
 ![](images/image23.png)
 
 @@
-
-###Finally!
-
-So, now I want you to add an image to the student model with a url.

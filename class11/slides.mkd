@@ -53,27 +53,38 @@ roster/templates/roster/home.html
 ###Project Templates
 
 Global Templates for the project:
-    * ideal for Boilerplate templates and HTML
 
-    * Overriding App templates Stored within the project dir
+* Ideal for boilerplate/layout templates and HTML
+* Overriding third-party app templates
+<br/>
+<br/>
 
-newschool/templates/base.html
+boilerplate - newschool/templates/base.html
 
-@@
-
-###Define Template Loader
-
-Edit the TEMPLATE_LOADERS var in the settings file
-
-Django loads templates in this order:
-
-1. projectname/templates/appname/home.html
-
-1. appname/templates/appname/home.html
+override - newschool/templates/appname/templatename.html
 
 @@
 
-###Make Template Dirs
+###Template Loader
+
+Default TEMPLATE_LOADERS
+
+```python
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+ ```
+
+Django loads templates in this order, whichever is found first:
+
+1. projectname/templates/appname/home.html per TEMPLATE_DIRS
+
+1. appname/templates/appname/home.html per INSTALLED_APPS
+
+@@
+
+###Make Roster App Template Dirs
 
 ![](images/image4.png)
 
@@ -159,21 +170,17 @@ We need urls for /course/ and /student/
 
 Keeping your templates DRY
 
-DONT REPEAT YOURSELF
+Create a Base Template:
 
-Create a Base Template
-
-Defines high-level site layout/navigation
-
-Includes site-wide CSS
-
-Includes site-wide JS
+* Defines high-level site layout/navigation
+* Includes site-wide CSS
+* Includes site-wide JS
 
 Create blocks for things we want to change in sub-templates
 
 @@
 
-###Template InheritanceBase Template
+###Template Inheritance Base Template
 
 ![](images/image16.png)
 
@@ -191,9 +198,16 @@ You can use {% url ‘roster_course' %}
 
 makes /course/
 
-![](images/image18.png)
+```
+{% url 'roster_course' %}
+
+```
 
 @@
 
 ###Use it for a link
+
+```
+<a href="{% url 'roster_course' %}">Courses</a>
+```
 

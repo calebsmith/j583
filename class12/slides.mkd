@@ -242,5 +242,3 @@ Part 2 of 3
 Part 3 of 3.
 
 ![](images/image23.png)
-
-@@

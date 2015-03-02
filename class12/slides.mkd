@@ -1,0 +1,299 @@
+###Django Templates and Views
+
+![](images/image1.png)
+
+@@
+
+###Previously on Lost
+
+You had a view of student and course that gave you a random student record rather than one based on the URL
+
+You should have found a way to fix this before today.
+
+Let me show you how.
+
+@@
+
+###Remember
+
+Request 
+
+urls.py
+
+ 
+
+views.py
+
+ 
+
+template.html
+
+Trace everything backwards and make sure changes are correct on all three files.
+
+@@
+
+###App urls.py
+
+N
+
+eed to turn on /student/123  and the same for courses.
+
+![](images/image2.png)
+
+@@
+
+###App views.py
+
+![](images/image3.png)
+
+@@
+
+###App views.py
+
+![](images/image4.png)
+
+@@
+
+###Test it!Now for Style! Bootstrap Style
+
+mkdir
+
+
+
+newschool
+
+/
+
+static_media
+
+
+
+curl
+
+https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-
+
+dist.zip
+
+ >
+
+bootstrap.zip
+
+![](images/image5.png)
+
+@@
+
+###Unzip and Copy Content into static_media
+
+unzip
+
+bootstrap.zip
+
+mv bootstrap/*
+
+static_media
+
+![](images/image6.png)
+
+@@
+
+###Always clean up after yourself
+
+rmdir
+
+ bootstrap
+
+rmdir
+
+
+
+bootstrap.zip
+
+![](images/image7.png)
+
+@@
+
+###Directory Structure and files
+
+![](images/image8.png)
+
+@@
+
+###Django Static Server
+
+In production, you would serve static files with Apache or a CDN which would be faster
+
+Django
+
+ is a
+
+dyamic
+
+ server so it is slower but will work in our case
+
+http://localhost:8000/static/css/
+
+bootstrap.css
+
+notice the /static/ comes from the
+
+settings.py
+
+
+
+@@
+
+###Collect Static Files
+
+For when you need to get all of your static files in one place to put them on a server:
+
+![](images/image9.png)
+
+![](images/image10.png)
+
+@@
+
+###Add bootstrap to base.html
+
+![](images/image11.png)
+
+@@
+
+###Update home.html links
+
+![](images/image12.png)
+
+@@
+
+###What are the three files when editing making a new page?What are the three files when editing making a new page?
+
+urls.py
+
+views.py
+
+template_name.html
+
+@@
+
+###urls.py (setup new view)
+
+![](images/image13.png)
+
+@@
+
+###Need a list of each model
+
+duplicate
+
+course.html
+
+ and rename
+
+course_list.html
+
+duplicate
+
+student.html
+
+ and rename
+
+student_list.html
+
+Create new view for listing
+
+![](images/image14.png)
+
+@@
+
+###But what about 5000 names?
+
+Pagination. I just searched “
+
+django
+
+ pagination”
+
+And got this answer
+
+. https://
+
+docs.djangoproject.com
+
+/en/
+
+dev
+
+/topics/pagination
+
+/
+
+Had to change the model names and make sure everything was imported but it worked pretty easy.
+
+@@
+
+###views.py
+
+![](images/image15.png)
+
+![](images/image16.png)
+
+@@
+
+###views.py
+
+![](images/image17.png)
+
+@@
+
+###templates course_list.html
+
+![](images/image18.png)
+
+@@
+
+###template student_list.html
+
+![](images/image19.png)
+
+@@
+
+###Static Files Problem
+
+Oops, I Screwed up!
+
+@@
+
+###Words to live by
+
+“Always have a friend who is smarter than you.”
+
+![](images/image20.png)
+
+@@
+
+###Fix the views
+
+Part 1 of 3
+
+![](images/image21.png)
+
+@@
+
+###Fix The Views
+
+Part 2 of 3
+
+![](images/image22.png)
+
+@@
+
+###Fix The Views
+
+Part 3 of 3.
+
+![](images/image23.png)
+
+@@
+
+###Finally!
+
+So, now I want you to add an image to the student model with a url.

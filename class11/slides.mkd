@@ -1,0 +1,199 @@
+###Django Templates
+
+Making it public and pretty
+
+@@
+
+###Steps Creating Pages
+
+Check URL
+
+Make a View
+
+Make a Template
+
+@@
+
+###views.py
+
+![](images/image1.png)
+
+@@
+
+###base.html
+
+![](images/image2.png)
+
+@@
+
+###Check the homepage in browser
+
+![](images/image3.png)
+
+@@
+
+###Template Locations
+
+App templates (roster)
+
+Project Templates (newschool)
+
+@@
+
+###App Templates
+
+Specific Templates only used for a single app
+
+Stored within the app dir
+
+roster/templates/roster/home.html
+
+@@
+
+###Project Templates
+
+Global Templates for the project:
+    * ideal for Boilerplate templates and HTML
+
+    * Overriding App templates Stored within the project dir
+
+newschool/templates/base.html
+
+@@
+
+###Define Template Loader
+
+Edit the TEMPLATE_LOADERS var in the settings file
+
+Django loads templates in this order:
+
+1. projectname/templates/appname/home.html
+
+1. appname/templates/appname/home.html
+
+@@
+
+###Make Template Dirs
+
+![](images/image4.png)
+
+@@
+
+###Set up Templates for New Homepage
+
+![](images/image5.png)
+
+@@
+
+###New Homepage
+
+![](images/image6.png)
+
+@@
+
+###New Homepage Test
+
+![](images/image7.png)
+
+@@
+
+###Humanize!
+
+![](images/image8.png)
+
+@@
+
+###{{ var|intcoma }}
+
+Don’t miss line 2.
+
+![](images/image9.png)
+
+@@
+
+###Now some more view
+
+Add this to views.py
+
+![](images/image10.png)
+
+@@
+
+###Need URLs
+
+Change hello-world to include all roster urls.
+
+![](images/image11.png)
+
+@@
+
+###Add a new urls.py to the app
+
+Create urls.py inside roster
+
+![](images/image12.png)
+
+@@
+
+###roster/urls.py
+
+![](images/image13.png)
+
+@@
+
+###Test it main home page
+
+![](images/image14.png)
+
+@@
+
+###Open some more URLS
+
+We need urls for /course/ and /student/
+
+![](images/image15.png)
+
+@@
+
+###Templates
+
+Keeping your templates DRY
+
+DONT REPEAT YOURSELF
+
+Create a Base Template
+
+Defines high-level site layout/navigation
+
+Includes site-wide CSS
+
+Includes site-wide JS
+
+Create blocks for things we want to change in sub-templates
+
+@@
+
+###Template InheritanceBase Template
+
+![](images/image16.png)
+
+@@
+
+###Home Template
+
+![](images/image17.png)
+
+@@
+
+###Reversing URLs
+
+You can use {% url ‘roster_course' %}
+
+makes /course/
+
+![](images/image18.png)
+
+@@
+
+###Use it for a link
+

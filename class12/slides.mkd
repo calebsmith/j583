@@ -189,7 +189,7 @@ def studentList(request):
     page = request.GET.get('page')
     try:
         students = paginator.page(page)
-    except PageNotanInteger:
+    except PageNotAnInteger:
         students = paginator.page(1)
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
@@ -209,7 +209,7 @@ def courseList(request):
     page = request.GET.get('page')
     try:
         courses = paginator.page(page)
-    except PageNotanInteger:
+    except PageNotAnInteger:
         courses = paginator.page(1)
     except EmptyPage:
         courses = paginator.page(paginator.num_pages)

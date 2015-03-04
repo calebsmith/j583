@@ -192,6 +192,32 @@ Create blocks for things we want to change in sub-templates
 
 @@
 
+###New templates
+
+```
+{# in roster/templates/roster/student.html
+{% extends 'base.html' %}
+
+{% block content %}
+    <p> {{ student.pid }} | {{ student.name }} has grade {{ student.grade }}</p>
+{% endblock content %}
+```
+
+<br/>
+
+```
+{# in roster/templates/roster/course.html
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2> {{ course.callnumber }} | {{ course.name }}</h2>
+    <h4> {{ course.instructor }}</h4>
+    <p> {{ course.description }}</p>
+{% endblock content %}
+```
+
+@@
+
 ###Reversing URLs
 
 You can use {% url ‘roster_course' %}
@@ -206,6 +232,8 @@ makes /course/
 @@
 
 ###Use it for links
+
+* Add this to home.html
 
 ```
 <a href="{% url 'roster_course' %}">Courses</a>

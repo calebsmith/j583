@@ -52,7 +52,7 @@ urlpatterns = patterns('',
 
 ```python
 # roster/views.py
-from django.shortcuts import render, get_object_or_404, redirect_render_to_response
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from roster.models import Course, Student
@@ -126,11 +126,11 @@ urlpatterns = patterns('',
 
 def courseList(request):
     course_list = Course.objects.all()
-    return render(request, 'roster/course_list.html', {'courses': course_list}
+    return render(request, 'roster/course_list.html', {'courses': course_list})
 
 def studentList(request):
     student_list = Student.objects.all()
-    return render(request, 'roster/student_list.html', {'students': student_list}
+    return render(request, 'roster/student_list.html', {'students': student_list})
 ```
 
 @@
@@ -145,8 +145,7 @@ def studentList(request):
     <h2>All Classes</h2>
     <ul>
         {% for course in courses %}
-            <li><a href="{{ course.id }}">{{ course.name }}</a> | {{
-            course.callnumber }}</li>
+            <li><a href="{% url 'roster_course' course.id %}">{{ course.name }}</a> | {{ course.callnumber }}</li>
         {% endfor %}
     </ul>
 {% endblock %}
@@ -160,8 +159,7 @@ def studentList(request):
     <h2>All Students</h2>
     <ul>
         {% for student in students %}
-            <li><a href="{{ student.id }}">{{ student.name }}</a> | {{
-            student.callnumber }}</li>
+            <li><a href="{% url 'roster_student' student.id %}">{{ student.name }}</a> | {{ student.grade }}</li>
         {% endfor %}
     </ul>
 {% endblock %}
@@ -195,7 +193,7 @@ def studentList(request):
         students = paginator.page(1)
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
-    return render(request, 'roster/student_list.html', {'students': students}
+    return render(request, 'roster/student_list.html', {'students': students})
 ```
 
 @@
@@ -215,7 +213,7 @@ def courseList(request):
         courses = paginator.page(1)
     except EmptyPage:
         courses = paginator.page(paginator.num_pages)
-    return render(request, 'roster/course_list.html', {'courses': courses}
+    return render(request, 'roster/course_list.html', {'courses': courses})
 ```
 
 @@

@@ -195,7 +195,7 @@ Create blocks for things we want to change in sub-templates
 ###New templates
 
 ```
-{# in roster/templates/roster/student.html
+{# in roster/templates/roster/student.html #}
 {% extends 'base.html' %}
 
 {% block content %}
@@ -206,7 +206,7 @@ Create blocks for things we want to change in sub-templates
 <br/>
 
 ```
-{# in roster/templates/roster/course.html
+{# in roster/templates/roster/course.html #}
 {% extends 'base.html' %}
 
 {% block content %}

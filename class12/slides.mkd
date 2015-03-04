@@ -289,18 +289,18 @@ def courseList(request):
 
 ###Download Bootstrap
 
-```
-cd newschool/static
-curl https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-dist.zip > bootstrap.zip
-```
+* download https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-dist.zip
+
+* Save as boostrap-3.3.2-dist.zip and place or move to newschool/newschool/static
 
 @@
 
 ###Unzip and Copy Content into static
 
 ```
-unzip bootstrap.zip
-mv bootstrap/* ../
+cd newschool/static
+unzip bootstrap-3.3.2-dist.zip
+mv bootstrap-3.3.2-dist/* ../
 ```
 
 @@
@@ -308,8 +308,8 @@ mv bootstrap/* ../
 ###Always clean up after yourself
 
 ```
-rmdir bootstrap
-rm bootstrap.zip
+rm -rf bootstrap-3.3.2-dist
+rm bootstrap-3.3.2-dist.zip
 ```
 
 @@

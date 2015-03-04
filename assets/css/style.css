@@ -12,11 +12,17 @@ aside.logo {
 .reveal pre {
   background-color: #fff;
   color: #434a49;
-  padding: 10px 15px; }
+  padding: 0px;
+  margin: 0px;
+  max-height: 800px;
+  width: 1200px;
+}
 
 .reveal pre code {
-  padding: 10px 15px !important;
-  max-height: 450px; }
+  max-height: 800px;
+  width: 1200px;
+
+}
 
 /*********************************************
  * GLOBAL STYLES

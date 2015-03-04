@@ -205,9 +205,10 @@ makes /course/
 
 @@
 
-###Use it for a link
+###Use it for links
 
 ```
 <a href="{% url 'roster_course' %}">Courses</a>
+<a href="{% url 'roster_student %}">Students</a>
 ```
 

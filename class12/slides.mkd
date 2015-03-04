@@ -31,23 +31,55 @@ Trace everything backwards and make sure changes are correct on all three files.
 
 Need to turn on /student/123 and the same for courses.
 
-![](images/image2.png)
+```
+# roster/urls.py
+from django.conf.urls import patterns, url
+
+from roster import views
+
+urlpatterns = patterns('',
+	url(r'^$', views.home, name='roster_home'),
+	# TODO url(r'^course/$', views.courseList, name='roster_course_list'),
+	# TODO url(r'^student/$', views.studentList, name='roster_student_list'),
+	url(r'^course/(?P<pk>\d+)$', views.course, name='roster_course'),
+	url(r'^student/(?P<pk>\d+)$', views.student, name='roster_student'),
+)
+```
 
 @@
 
 ###App views.py
 
-![](images/image3.png)
+```python
+# roster/views.py
+from django.shortcuts import render, get_object_or_404, redirect_render_to_response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from roster.models import Course, Student
+
+def home(request):
+    context = {
+        'student_count': Student.objects.count(),
+        'course_count': Course.objects.count(),
+    }
+    return render(request, 'roster/home.html', context)
+
+def course(request, pk):
+    course = get_object_or_404(Course, id=pk)
+    return render(request, 'roster/course.html', {'course': course})
+
+def student(request, pk):
+    student = get_object_or_404(Student, id=pk)
+    return render(request, 'roster/student.html', {'student': student})
+```
 
 @@
 
-###App views.py
-
-![](images/image4.png)
+###Test it out!
 
 @@
 
-###Test it!Now for Style! Bootstrap Style
+###Sweet Style
 
 ```
 cd newschool/static
@@ -56,7 +88,7 @@ curl https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-
 
 @@
 
-###Unzip and Copy Content into static_media
+###Unzip and Copy Content into static
 
 ```
 unzip bootstrap.zip
@@ -133,6 +165,10 @@ For when you need to get all of your static files in one place to put them on a 
 
 @@
 
+###Adding remaining views
+
+@@
+
 ###Update home.html links
 
 ![](images/image12.png)
@@ -153,21 +189,73 @@ What are the three files when editing making a new page?
 
 @@
 
-###urls.py (setup new view)
+###urls.py (route to new views)
 
-![](images/image13.png)
+* Uncomment lines for courseList and studentList
+
+```
+urlpatterns = patterns('',
+	url(r'^$', views.home, name='roster_home'),
+	url(r'^course/$', views.courseList, name='roster_course_list'),
+	url(r'^student/$', views.studentList, name='roster_student_list'),
+	url(r'^course/(?P<pk>\d+)$', views.course, name='roster_course'),
+	url(r'^student/(?P<pk>\d+)$', views.student, name='roster_student'),
+)
+```
 
 @@
 
-###Need a list of each model
+###views.py
 
-duplicate course.html and rename course_list.html
+```
+# add to roster/views.py
 
-duplicate student.html and rename student_list.html
+def courseList(request):
+    course_list = Course.objects.all()
+    return render(request, 'roster/course_list.html', {'courses': course_list}
 
-Create new view for listing
+def studentList(request):
+    student_list = Student.objects.all()
+    return render(request, 'roster/student_list.html', {'students': student_list}
+```
 
-![](images/image14.png)
+@@
+
+###List Templates
+
+```
+{# roster/course_list.html #}
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>All Classes</h2>
+    <ul>
+        {% for course in courses %}
+            <li><a href="{{ course.id }}">{{ course.name }}</a> | {{
+            course.callnumber }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+```
+
+```
+{# roster/student_list.html #}
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>All Students</h2>
+    <ul>
+        {% for student in students %}
+            <li><a href="{{ student.id }}">{{ student.name }}</a> | {{
+            student.callnumber }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+```
+
+@@
+
+###Test it
 
 @@
 
@@ -177,68 +265,106 @@ Create new view for listing
 
 [Django Pagination](https://docs.djangoproject.com/en/dev/topics/pagination/)
 
-* Just change the model names and make sure everything was imported.
+@@
+
+
+###Pagination in views.py
+
+```
+def studentList(request):
+    student_list = Student.objects.all()
+    paginator = Paginator(student_list, 25)
+    page = request.GET.get('page')
+    try:
+        students = paginator.page(page)
+    except PageNotanInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+    return render(request, 'roster/student_list.html', {'students': students}
+```
 
 @@
 
-###views.py
+###Pagination for courses
 
-![](images/image15.png)
+* Just change the model and variable names
 
-![](images/image16.png)
-
-@@
-
-###views.py
-
-![](images/image17.png)
-
-@@
-
-###templates course_list.html
-
-![](images/image18.png)
-
-@@
-
-###template student_list.html
-
-![](images/image19.png)
+```
+def courseList(request):
+    course_list = Course.objects.all()
+    paginator = Paginator(course_list, 25)
+    page = request.GET.get('page')
+    try:
+        courses = paginator.page(page)
+    except PageNotanInteger:
+        courses = paginator.page(1)
+    except EmptyPage:
+        courses = paginator.page(paginator.num_pages)
+    return render(request, 'roster/course_list.html', {'courses': courses}
+```
 
 @@
 
-###Static Files Problem
+###Pagination in templates
 
-Oops, I Screwed up!
+```
+{# roster/course_list.html #}
+{% extends "base.html" %}
 
-@@
+{% block content %}
+    <h2>All Classes</h2>
+    <ul>
+        {% for course in courses %}
+            <li><a href="{{ course.id }}">{{ course.name }}</a> | {{ course.callnumber }}</li>
+        {% endfor %}
+    </ul>
 
-###Words to live by
+    {# This pagination div part is new #}
 
-“Always have a friend who is smarter than you.”
+    <div class="pagination">
+        <span class="step-links">
+            {% if courses.has_previous %}
+                <a href="?page={{ courses.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ courses.number }} of {{ courses.paginator.num_pages }}
+            </span>
+            {% if courses.has_next %}
+                <a href="?page={{ courses.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+```
 
-![](images/image20.png)
 
-@@
+```
+{# roster/student_list.html #}
+{% extends "base.html" %}
 
-###Fix the views
+{% block content %}
+    <h2>All Classes</h2>
+    <ul>
+        {% for student in students %}
+            <li><a href="{{ student.id }}">{{ student.name }}</a> | {{ student.callnumber }}</li>
+        {% endfor %}
+    </ul>
 
-Part 1 of 3
+    {# This pagination div part is new #}
 
-![](images/image21.png)
-
-@@
-
-###Fix The Views
-
-Part 2 of 3
-
-![](images/image22.png)
-
-@@
-
-###Fix The Views
-
-Part 3 of 3.
-
-![](images/image23.png)
+    <div class="pagination">
+        <span class="step-links">
+            {% if students.has_previous %}
+                <a href="?page={{ students.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ students.number }} of {{ students.paginator.num_pages }}
+            </span>
+            {% if students.has_next %}
+                <a href="?page={{ students.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+```

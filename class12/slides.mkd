@@ -79,92 +79,6 @@ def student(request, pk):
 
 @@
 
-###Sweet Style
-
-```
-cd newschool/static
-curl https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-dist.zip > bootstrap.zip
-```
-
-@@
-
-###Unzip and Copy Content into static
-
-```
-unzip bootstrap.zip
-mv bootstrap/* ../
-```
-
-@@
-
-###Always clean up after yourself
-
-```
-rmdir bootstrap
-rm bootstrap.zip
-```
-
-@@
-
-###Directory Structure and files
-
-![](images/image8.png)
-
-* N.B. - "static" **not** "static_media" as in the image
-
-@@
-
-###Django Static Server
-
-In production, you would serve static files with Apache or a CDN which would be faster
-
-Django is a dyamic server so it is slower but will work in our case (and for development)
-
-http://localhost:8000/static/css/bootstrap.css
-
-* Notice the /static/ comes from the settings.py STATIC_URL
-
-@@
-
-###Collect Static Files
-
-For when you need to get all of your static files in one place to put them on a server:
-
-![](images/image9.png)
-
-
-![](images/image10.png)
-
-* N.B. - Ours will be in /public/static per STATIC_ROOT
-
-@@
-
-###Add bootstrap to base.html
-
-```
-<!-- Ignore this line - Needed to get proper formatting --
-
-{% load static from staticfiles %}
-<!DOCTYPE html>
-
-<html lang="en">
-    <head>
-        <title>{% block title %}New School Project{% endblock %}</title>
-        <link href="{% static 'css/bootstrap.min.css' %}">
-    </head>
-
-    <body>
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    </body>
-</html>
-```
-
-@@
-
 ###Adding remaining views
 
 @@
@@ -367,4 +281,94 @@ def courseList(request):
         </span>
     </div>
 {% endblock %}
+```
+
+@@
+
+###Sweet Style
+
+@@
+
+###Download Bootstrap
+
+```
+cd newschool/static
+curl https://github.com/twbs/bootstrap/releases/download/v3.3.2/bootstrap-3.3.2-dist.zip > bootstrap.zip
+```
+
+@@
+
+###Unzip and Copy Content into static
+
+```
+unzip bootstrap.zip
+mv bootstrap/* ../
+```
+
+@@
+
+###Always clean up after yourself
+
+```
+rmdir bootstrap
+rm bootstrap.zip
+```
+
+@@
+
+###Directory Structure and files
+
+![](images/image8.png)
+
+* N.B. - "static" **not** "static_media" as in the image
+
+@@
+
+###Django Static Server
+
+In production, you would serve static files with Apache or a CDN which would be faster
+
+Django is a dyamic server so it is slower but will work in our case (and for development)
+
+http://localhost:8000/static/css/bootstrap.css
+
+* Notice the /static/ comes from the settings.py STATIC_URL
+
+@@
+
+###Collect Static Files
+
+For when you need to get all of your static files in one place to put them on a server:
+
+![](images/image9.png)
+
+
+![](images/image10.png)
+
+* N.B. - Ours will be in /public/static per STATIC_ROOT
+
+@@
+
+###Add bootstrap to base.html
+
+```
+<!-- Ignore this line - Needed to get proper formatting --
+
+{% load static from staticfiles %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>{% block title %}New School Project{% endblock %}</title>
+        <link href="{% static 'css/bootstrap.min.css' %}">
+    </head>
+
+    <body>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
 ```

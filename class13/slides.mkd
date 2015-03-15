@@ -576,5 +576,3 @@ place to get started.
 
 * [My First 5 Minutes On A Server](http://plusbryan.com/my-first-5-minutes-on-a-server-or-essential-security-for-linux-servers)
 * [The Twelve-Factor App](http://12factor.net/)
-* [Django Security Docs](https://docs.djangoproject.com/en/1.7/topics/security/)
-* [OWASP Proactive Controls](https://www.owasp.org/index.php/OWASP_Proactive_Controls)

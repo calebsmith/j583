@@ -1,0 +1,580 @@
+###Application Deployment
+
+@@
+
+###Mark Lavin
+
+* Technical Director at Caktus Group  
+* Co-Author of "Lightweight Django" by O'Reilly Media
+
+@@
+
+###Recap
+
+"New School" Project nearing feature completeness and ready to show to some users
+
+https://github.com/calebsmith/j583-newschool
+
+@@
+
+###Today
+
+* Provision a fresh server for this application
+* Deploy some small changes
+
+
+###Provision
+
+Initially configure servers with current application version
+
+
+###Deploy
+
+Update existing servers with latest application changes
+
+@@
+
+###Web Application Layers
+
+* 1 or more load balancers
+* 1 or more database servers
+* 1 or more application servers
+
+Notes:
+These could be separate physical or virtual servers or all on one machine. Ideal
+configurations scale down to a single development machine and up to a cluster of
+machines. Other pieces like caching, etc may come later.
+
+
+###Our Stack
+
+* 1 load balancer - Nginx
+* 1 database server - SQLite
+* 1 application server - Guniorn
+
+Notes:
+This will all run on one server. Might switch to Postgres if there is time. The
+choice of Nginx and Guniorn could be replaced with Apache, uwsgi, etc. I like these
+because they are easy to use and configure.
+
+@@
+
+###Vagrant
+
+https://www.vagrantup.com/
+
+```ruby
+Vagrant.require_version ">= 1.7.0"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network :private_network, ip: "33.33.33.10"
+  config.vm.provider :virtualbox do |vbox|
+    vbox.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+end
+```
+
+Save this as ``Vagrantfile``
+
+Notes:
+Vagrant is a helpful wrapper around VirtualBox and other virtualization providers.
+You may need/want to use 32 bit if your BIOS isn't configured to support 64 bit
+virtualization.
+
+
+Start Server
+```bash
+local $ vagrant up
+```
+
+Notes:
+The first time this runs it can be very slow in particular if it needs to download
+the box. Those are cached for future use.
+
+
+Connect to Server
+```bash
+local $ vagrant ssh
+```
+
+Notes:
+Connects to the server via SSH as the vagrant user who is an admin on the box.
+
+@@
+
+###Application Setup
+
+Install Python and setup a fresh virtual environment
+
+```bash
+vagrant $ sudo apt-get install wget vim python python-dev git-core
+vagrant $ wget https://bootstrap.pypa.io/get-pip.py
+vagrant $ sudo -H python get-pip.py
+vagrant $ sudo -H pip install virtualenv
+vagrant $ virtualenv newschool -p `which python`
+```
+
+
+Get current source and install Python requirements
+
+```bash
+vagrant $ git clone git@github.com:calebsmith/j583-newschool.git
+vagrant $ source newschool/bin/activate
+(newschool) vagrant $ pip install -r j583-newschool/requirements.txt
+```
+
+
+Install Gunicorn and run the WSGI server
+
+```bash
+(newschool) vagrant $ pip install Gunicorn
+(newschool) vagrant $ cd j583-newschool
+(newschool) vagrant $ gunicorn newschool.wsgi:application
+```
+
+Notes:
+Server is now running inside the Vagrant box but only listening on localhost. To
+access it from the outside world we would either need to listen on a public address
+(bad idea) or proxy those requests through Nginx (or equivalent).
+
+@@
+
+###Nginx Setup
+
+```bash
+vagrant $ sudo apt-get install nginx
+```
+
+
+Visit http://33.33.33.10/
+
+![](images/nginx-default.png)
+
+
+Change default configuration
+```bash
+vagrant $ sudo rm /etc/nginx/sites-enabled/default
+vagrant $ sudo vim /etc/nginx/sites-enabled/newschool
+```
+
+
+Setup Nginx to proxy all request from 80 to 8000 (Gunicorn)
+```nginx
+server {
+    listen 80;
+    
+    location / {
+        proxy_pass http://localhost:8000;
+    }
+}
+```
+
+
+Reload the Nginx configuration
+```bash
+vagrant $ sudo service nginx reload
+```
+
+
+Visit http://33.33.33.10/
+
+![](images/nginx-newschool.png)
+
+Notes:
+So far everything appears to be working but this is running using DEBUG=True. Also
+Gunicorn is running in my SSH session and if it disconnects the server is going 
+to die. Need to have Guicorn run on start up.
+
+@@
+
+###Supervisor Setup
+
+Install supervisor and edit a new configuration
+```bash
+vagrant $ sudo apt-get install supervisor
+vagrant $ sudo vim /etc/supervisor/conf.d/newschool.conf
+```
+
+Notes:
+There are plenty of other options for process monitoring/management: init.d, upstart,
+systemd, runit, cirus. Like the load balancer and the WSGI server, these will
+likely never be a bottleneck in your application. Pick one, learn it, and use it
+until you have a meaningful reason to switch.
+
+
+Server process configuration
+```ini
+[program:newschool-server]
+command=/home/vagrant/newschool/bin/gunicorn newschool.wsgi:application
+user=vagrant
+directory=/home/vagrant/j583-newschool/
+autostart=true
+autorestart=true
+```
+
+
+Reload supervisor configuration and check for new process
+```bash
+vagrant $ sudo supervisorctl reload
+vagrant $ sudo supervisorctl status
+```
+
+Notes:
+The process now runs independent of my shell and will auto start if the server is
+rebooted. Now let's fix that debug issue.
+
+@@
+
+###Production Django Settings
+
+There are many ways to configure Django for multiple environments (local, staging, production)
+
+https://code.djangoproject.com/wiki/SplitSettings
+
+Notes:
+Choosing one that works for you and your project I think greatly depends how many
+configuration differences there are and how you manage the deployment configuration.
+For small differences you can get away with a
+single settings file and some environment variables (with sane defaults). Larger
+project configurations typically require breaking out multiple files. PAAS providers
+are at times very opinionated about this.
+
+
+###Common Settings to Configure
+
+* DEBUG/TEMPLATE_DEBUG
+* SECRET_KEY
+* ALLOWED_HOSTS
+* DATABASES
+* STATIC_ROOT/STATIC_URL
+* MEDIA_ROOT/MEDIA_URL
+
+Notes:
+Not all of these necessarily need to be changed but the values of these settings
+may impact other service configuration: DB, load balancer.
+
+
+###Settings Updates
+
+My fork of the project with a new deployment branch (based on the add-bootstrap branch)
+
+https://github.com/mlavin/j583-newschool/tree/deployment
+
+```python
+SECRET_KEY = os.environ.get('SECRET_KEY', 'v*c3d#s6cu(r9c@1y+okbl*wh6vh77^w2pw0sgqf&rx!bads8f')
+
+DEBUG = os.environ.get('DEBUG', 'on') != 'off'
+
+TEMPLATE_DEBUG = DEBUG
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(';')
+```
+
+Notes:
+These defaults are aimed at development. Unless changed the SECRET_KEY is the default,
+DEBUG is on, and ALLOWED_HOSTS is empty.
+
+
+###Settings Review
+
+Did not change these settings but want to keep them in mind
+```python
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
+
+MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
+```
+
+On the server ``BASE_DIR`` points to 
+
+``/home/vagrant/j583-newschool``
+
+@@
+
+###Deployment
+
+We've provisioned the server and have the current application up and running.
+How do we get these changes out to the server?
+
+
+###Common Deployment Steps
+
+* Get latest application
+* Update application dependencies
+* Apply database updates
+* Restart application server(s)
+
+
+###Get Latest Application
+
+We are using git so we can pull the latest changes
+```bash
+vagrant $ cd /home/vagrant/j583-newschool/
+vagrant $ git remote add mlavin git@github.com:mlavin/j583-newschool.git
+vagrant $ git fetch mlavin
+vagrant $ git reset --hard mlavin/deployment
+```
+In this case we are also switching to use my version. 
+
+Notes:
+This could be done with rsync, scp, ftp, python packaging, debian packaging, etc
+instead. ``git reset --hard`` will throw away any changes made on the server.
+
+
+###Update Dependencies
+
+These didn't change but we can do it anyway
+```bash
+vagrant $ source /home/vagrant/newschool/bin/activate
+(newschool) vagrant $ pip install -r requirements.txt
+```
+Make sure you are installing these in the virtualenv.
+
+
+###Apply Database Updates
+
+Againg these didn't change but we can do it anyway
+```bash
+(newschool) vagrant $ python manage.py migrate
+```
+
+Notes:
+Here the DB is included in the repo which is particularly ugly so this step isn't
+strictly necessary. Generally this would be needed.
+
+
+###Restart Application Server
+
+Tell supervisor to restart the server
+```bash
+vagrant $ sudo supervisorctl restart newschool-server
+```
+
+@@
+
+###Configuring Environment
+
+Open supervisor configuration
+```bash
+vagrant $ sudo vim /etc/supervisor/conf.d/newschool.conf
+```
+
+Add variable values to the ``environment`` value
+```ini
+[program:newschool-server]
+command=/home/vagrant/newschool/bin/gunicorn newschool.wsgi:application
+user=vagrant
+directory=/home/vagrant/j583-newschool/
+autostart=true
+autorestart=true
+environment=DEBUG="off",ALLOWED_HOSTS="33.33.33.10",SECRET_KEY="thisismysecret"
+```
+
+Notes:
+Server is now running with my version of the code but we haven't yet set
+the necessary varibles.
+
+
+Change to ensure the configuration can only be read or modified by root
+```bash
+vagrant $ sudo chmod 600 /etc/supervisor/conf.d/newschool.conf
+vagrant $ sudo supervisorctl reload
+```
+
+
+###Oh No!
+
+![](images/nginx-error.png)
+
+
+Notes:
+There is one common cause of a 400 error with Django and that is an invalid HOST
+header value. Our ALLOWED_HOSTS setting only allows 33.33.33.10 and that's
+what should be given. However, Nginx will remove the HOST header by default
+when used as a proxy. Need to update Nginx to be a better proxy
+
+@@
+
+###Nginx Updates
+
+Open the site configuration
+```bash
+vagrant $ sudo vim /etc/nginx/sites-enabled/newschool
+```
+
+Configure to sent the HOST header and client IP info
+```nginx
+server {
+    listen 80;
+    
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host 33.33.33.10;
+        proxy_pass http://localhost:8000;
+    }
+}
+```
+
+Notes:
+We don't need to include the ``X-Real-IP`` or ``X-Forwarded-For`` but it lets
+Django see the correct client IP address.
+
+
+Reload Nginx
+```bash
+vagrant $ sudo service nginx reload
+```
+
+Notes:
+In reality you probably want the host to be domain name (newschool.unc.edu) rather
+than an IP address. This resolves the HOST issue but with DEBUG off Django will
+no longer serve the static files. Need to configure Nginx to handle that.
+
+@@
+
+###Serving Static Files
+
+Recall our current settings
+```python
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
+
+MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
+```
+
+This puts the ``static`` and ``media`` folders in 
+
+``/home/vagrant/j583-newschool/public/``
+
+
+
+Let's ensure it exists and run ``collectstatic``
+```bash
+(newschool) vagrant $ cd /home/vagrant/j583-newschool/
+(newschool) vagrant $ mkdir public
+(newschool) vagrant $ python manage.py collectstatic
+```
+
+
+Open the site configuration
+```bash
+vagrant $ sudo vim /etc/nginx/sites-enabled/newschool
+```
+
+Configure to serve these directories
+```nginx
+server {
+    listen 80;
+
+    root /home/vagrant/j583-newschool/public/;
+    
+    location /static/ {
+        alias /home/vagrant/j583-newschool/public/static/;
+    }
+
+    location /media/ {
+        alias /home/vagrant/j583-newschool/public/media/;
+    }
+
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host 33.33.33.10;
+        proxy_pass http://localhost:8000/;
+    }
+}
+```
+
+Notes:
+These locations depend on the STATIC_URL/STATIC_ROOT and the MEDIA_URL/MEDIA_ROOT
+settings.
+
+
+Reload Nginx
+```bash
+vagrant $ sudo service nginx reload
+```
+
+@@
+
+###Recap
+
+Currently have Nginx serving static files in front of Gunicorn which is managed by Supervisor.
+
+
+
+###To Deploy
+```bash
+# Connect to server
+local $ vagrant ssh
+# Activate virtualenv
+vagrant $ source newschool/bin/activate
+# Update to latest master
+(newschool) vagrant $ cd j583-newschool
+(newschool) vagrant $ git fetch origin
+(newschool) vagrant $ git reset --hard origin/master
+# Update requirements
+(newschool) vagrant $ pip install -r requirements.txt
+# Update schema
+(newschool) vagrant $ python manage.py migrate
+# Update static files
+(newschool) vagrant $ python manage.py collectstatic
+# Restart WSGI server
+(newschool) vagrant $ sudo supervisorctl restart newschool-server
+```
+
+Notes:
+``origin`` could be replaced with another remote server (if there was more than one).
+Likewise ``master`` could be replaced with another branch it we were deploying that.
+Might want to stop server in the beginning and start at the end instead. That would
+cause some brief downtime.
+
+@@
+
+###Future Work
+
+* Switch to Postgres instead of SQLite
+* Basic server hardening
+* Script/automate the deployment
+* Script/automate the provisioning
+
+@@
+
+###Resources
+
+* Starter Projects
+* Server Automation Tools
+* Security Docs/Tutorials
+
+
+###Starter Projects
+
+* [Caktus Django Project Template](https://github.com/caktus/django-project-template)
+* [Cookie Cutter Django](https://github.com/pydanny/cookiecutter-django)
+
+
+###Server Automation Tools
+
+* [Fabric](http://fabfile.org/)
+* [Capistrano](http://capistranorb.com/)
+* [Salt Stack](http://docs.saltstack.com/en/latest/)
+* [Ansible](http://docs.ansible.com/)
+* [Chef](https://learn.chef.io/)
+* [Puppet](https://docs.puppetlabs.com/learning/index.html)
+
+Notes:
+Get down the basics of understand what you want to do/would do by hand before
+diving too deep into one of these (other than maybe Fabric). Fabric is a good
+place to get started.
+
+
+###Tutorials
+
+* [My First 5 Minutes On A Server](http://plusbryan.com/my-first-5-minutes-on-a-server-or-essential-security-for-linux-servers)
+* [The Twelve-Factor App](http://12factor.net/)
+* [Django Security Docs](https://docs.djangoproject.com/en/1.7/topics/security/)
+* [OWASP Proactive Controls](https://www.owasp.org/index.php/OWASP_Proactive_Controls)

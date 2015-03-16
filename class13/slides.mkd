@@ -105,6 +105,18 @@ Connects to the server via SSH as the vagrant user who is an admin on the box.
 
 ###Application Setup
 
+Create a new user for running the application
+
+```bash
+vagrant $ sudo useradd --create-home --shell /bin/bash newschool
+```
+
+Notes:
+This is an easy step to skip but we aren't going to. The vagrant user is an
+admin (has sudo access) and we want to minimize the permissions of the user
+which will run the application.
+
+
 Install Python and setup a fresh virtual environment
 
 ```bash
@@ -112,25 +124,34 @@ vagrant $ sudo apt-get install wget vim python python-dev git-core
 vagrant $ wget https://bootstrap.pypa.io/get-pip.py
 vagrant $ sudo -H python get-pip.py
 vagrant $ sudo -H pip install virtualenv
-vagrant $ virtualenv newschool -p `which python`
+vagrant $ sudo su newschool
+newschool@vagrant $ cd
+newschool@vagrant $ virtualenv newschool -p `which python`
 ```
+
+Notes:
+This creates the virtualenv under the home directory of the newschool user.
 
 
 Get current source and install Python requirements
 
 ```bash
-vagrant $ git clone git@github.com:calebsmith/j583-newschool.git
-vagrant $ source newschool/bin/activate
-(newschool) vagrant $ pip install -r j583-newschool/requirements.txt
+newschool@vagrant $ git clone https://github.com/calebsmith/j583-newschool.git
+newschool@vagrant $ source env/bin/activate
+(env) newschool@vagrant $ pip install -r j583-newschool/requirements.txt
 ```
+
+Notes:
+Need to use HTTPS rather than SSH because we don't have key forwarding after
+switching users. Left as an exercise to make this work with private repos.
 
 
 Install Gunicorn and run the WSGI server
 
 ```bash
-(newschool) vagrant $ pip install Gunicorn
-(newschool) vagrant $ cd j583-newschool
-(newschool) vagrant $ gunicorn newschool.wsgi:application
+(env) newschool@vagrant $ pip install Gunicorn
+(env) newschool@vagrant $ cd j583-newschool
+(env) newschool@vagrant $ gunicorn newschool.wsgi:application
 ```
 
 Notes:
@@ -145,6 +166,9 @@ access it from the outside world we would either need to listen on a public addr
 ```bash
 vagrant $ sudo apt-get install nginx
 ```
+
+Notes:
+This will be done via a seperate SSH connection
 
 
 Visit http://33.33.33.10/
@@ -193,7 +217,6 @@ to die. Need to have Guicorn run on start up.
 Install supervisor and edit a new configuration
 ```bash
 vagrant $ sudo apt-get install supervisor
-vagrant $ sudo vim /etc/supervisor/conf.d/newschool.conf
 ```
 
 Notes:
@@ -203,15 +226,23 @@ likely never be a bottleneck in your application. Pick one, learn it, and use it
 until you have a meaningful reason to switch.
 
 
-Server process configuration
+Create new process configuration
+```bash
+vagrant $ sudo vim /etc/supervisor/conf.d/newschool.conf
+```
+
+Given below
 ```ini
 [program:newschool-server]
-command=/home/vagrant/newschool/bin/gunicorn newschool.wsgi:application
-user=vagrant
-directory=/home/vagrant/j583-newschool/
+command=/home/newschool/env/bin/gunicorn newschool.wsgi:application
+user=newschool
+directory=/home/newschool/j583-newschool/
 autostart=true
 autorestart=true
 ```
+
+Notes:
+Says what it does: which command to run, which user should run it, and where.
 
 
 Reload supervisor configuration and check for new process
@@ -289,7 +320,7 @@ STATIC_URL = '/static/'
 
 On the server ``BASE_DIR`` points to 
 
-``/home/vagrant/j583-newschool``
+``/home/newschool/j583-newschool``
 
 @@
 
@@ -311,10 +342,10 @@ How do we get these changes out to the server?
 
 We are using git so we can pull the latest changes
 ```bash
-vagrant $ cd /home/vagrant/j583-newschool/
-vagrant $ git remote add mlavin git@github.com:mlavin/j583-newschool.git
-vagrant $ git fetch mlavin
-vagrant $ git reset --hard mlavin/deployment
+newschool@vagrant $ cd /home/newschool/j583-newschool/
+newschool@vagrant $ git remote add mlavin https://github.com/mlavin/j583-newschool.git
+newschool@vagrant $ git fetch mlavin
+newschool@vagrant $ git reset --hard mlavin/deployment
 ```
 In this case we are also switching to use my version. 
 
@@ -327,8 +358,8 @@ instead. ``git reset --hard`` will throw away any changes made on the server.
 
 These didn't change but we can do it anyway
 ```bash
-vagrant $ source /home/vagrant/newschool/bin/activate
-(newschool) vagrant $ pip install -r requirements.txt
+newschool@vagrant $ source /home/newschool/env/bin/activate
+(env) newschool@vagrant $ pip install -r requirements.txt
 ```
 Make sure you are installing these in the virtualenv.
 
@@ -337,7 +368,7 @@ Make sure you are installing these in the virtualenv.
 
 Againg these didn't change but we can do it anyway
 ```bash
-(newschool) vagrant $ python manage.py migrate
+(env) newschool@vagrant $ python manage.py migrate
 ```
 
 Notes:
@@ -448,15 +479,15 @@ STATIC_URL = '/static/'
 
 This puts the ``static`` and ``media`` folders in 
 
-``/home/vagrant/j583-newschool/public/``
+``/home/newschool/j583-newschool/public/``
 
 
 
 Let's ensure it exists and run ``collectstatic``
 ```bash
-(newschool) vagrant $ cd /home/vagrant/j583-newschool/
-(newschool) vagrant $ mkdir public
-(newschool) vagrant $ python manage.py collectstatic
+(env) newschool@vagrant $ cd /home/newschool/j583-newschool/
+(env) newschool@vagrant $ mkdir public
+(env) newschool@vagrant $ python manage.py collectstatic
 ```
 
 
@@ -470,14 +501,10 @@ Configure to serve these directories
 server {
     listen 80;
 
-    root /home/vagrant/j583-newschool/public/;
+    root /home/newschool/j583-newschool/public/;
     
-    location /static/ {
-        alias /home/vagrant/j583-newschool/public/static/;
-    }
-
-    location /media/ {
-        alias /home/vagrant/j583-newschool/public/media/;
+    location ~ ^/(static|media)/ {
+    
     }
 
     location / {
@@ -506,25 +533,29 @@ vagrant $ sudo service nginx reload
 Currently have Nginx serving static files in front of Gunicorn which is managed by Supervisor.
 
 
-
 ###To Deploy
 ```bash
 # Connect to server
 local $ vagrant ssh
+# Switch to newschool user
+vagrant $ sudo su newschool
+newschool@vagrant $ cd
 # Activate virtualenv
-vagrant $ source newschool/bin/activate
+newschool@vagrant $ source env/bin/activate
 # Update to latest master
-(newschool) vagrant $ cd j583-newschool
-(newschool) vagrant $ git fetch origin
-(newschool) vagrant $ git reset --hard origin/master
+(env) newschool@vagrant $ cd j583-newschool
+(env) newschool@vagrant $ git fetch origin
+(env) newschool@vagrant $ git reset --hard origin/master
 # Update requirements
-(newschool) vagrant $ pip install -r requirements.txt
+(env) newschool@vagrant $ pip install -r requirements.txt
 # Update schema
-(newschool) vagrant $ python manage.py migrate
+(env) newschool@vagrant $ python manage.py migrate
 # Update static files
-(newschool) vagrant $ python manage.py collectstatic
+(env) newschool@vagrant $ python manage.py collectstatic
+# Switch back to admin
+newschool@vagrant $ exit
 # Restart WSGI server
-(newschool) vagrant $ sudo supervisorctl restart newschool-server
+vagrant $ sudo supervisorctl restart newschool-server
 ```
 
 Notes:
